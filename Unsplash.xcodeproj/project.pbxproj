@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D8592AF5254128C40044C1F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8592AF4254128C40044C1F8 /* AppDelegate.swift */; };
-		D8592AF9254128C40044C1F8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8592AF8254128C40044C1F8 /* ViewController.swift */; };
 		D8592AFC254128C40044C1F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8592AFA254128C40044C1F8 /* Main.storyboard */; };
 		D8592AFE254128C70044C1F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8592AFD254128C70044C1F8 /* Assets.xcassets */; };
 		D8592B01254128C70044C1F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8592AFF254128C70044C1F8 /* LaunchScreen.storyboard */; };
@@ -17,7 +16,6 @@
 /* Begin PBXFileReference section */
 		D8592AF1254128C40044C1F8 /* Unsplash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unsplash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8592AF4254128C40044C1F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D8592AF8254128C40044C1F8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D8592AFB254128C40044C1F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8592AFD254128C70044C1F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8592B00254128C70044C1F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,14 +52,29 @@
 		D8592AF3254128C40044C1F8 /* Unsplash */ = {
 			isa = PBXGroup;
 			children = (
-				D8592AF4254128C40044C1F8 /* AppDelegate.swift */,
-				D8592AF8254128C40044C1F8 /* ViewController.swift */,
-				D8592AFA254128C40044C1F8 /* Main.storyboard */,
-				D8592AFD254128C70044C1F8 /* Assets.xcassets */,
-				D8592AFF254128C70044C1F8 /* LaunchScreen.storyboard */,
-				D8592B02254128C70044C1F8 /* Info.plist */,
+				D8592B0B25415D120044C1F8 /* Application */,
+				D8592B0D25415D590044C1F8 /* Resource */,
 			);
 			path = Unsplash;
+			sourceTree = "<group>";
+		};
+		D8592B0B25415D120044C1F8 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				D8592AF4254128C40044C1F8 /* AppDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		D8592B0D25415D590044C1F8 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				D8592AFA254128C40044C1F8 /* Main.storyboard */,
+				D8592B02254128C70044C1F8 /* Info.plist */,
+				D8592AFD254128C70044C1F8 /* Assets.xcassets */,
+				D8592AFF254128C70044C1F8 /* LaunchScreen.storyboard */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,7 +148,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8592AF9254128C40044C1F8 /* ViewController.swift in Sources */,
 				D8592AF5254128C40044C1F8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,7 +293,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Unsplash/Info.plist;
+				INFOPLIST_FILE = Unsplash/Resource/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -298,7 +310,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Unsplash/Info.plist;
+				INFOPLIST_FILE = Unsplash/Resource/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
