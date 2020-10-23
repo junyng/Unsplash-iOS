@@ -16,6 +16,10 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
 
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+        
+        if let layout = collectionView.collectionViewLayout as? FeedLayout {
+            layout.delegate = self
+        }
     }
 
 }
@@ -32,6 +36,10 @@ extension FeedViewController: UICollectionViewDataSource {
         
         return cell
     }
-    
-    
+}
+
+extension FeedViewController: FeedLayoutDelegate {
+    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
+        return 300
+    }
 }
