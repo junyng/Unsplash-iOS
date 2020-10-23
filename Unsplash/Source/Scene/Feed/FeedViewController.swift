@@ -12,6 +12,8 @@ class FeedViewController: UIViewController {
 
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    let imageNames: [String] = ["image1", "image2", "image3"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,17 +24,27 @@ class FeedViewController: UIViewController {
         }
     }
 
+    func getImage(named name: String) -> UIImage? {
+        guard let path = Bundle.main.path(forResource: name, ofType: ".jpg") else {
+            return nil
+        }
+        
+        return UIImage(contentsOfFile: path)
+    }
 }
 
 extension FeedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return imageNames.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else {
-            return UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell,
+            let image = getImage(named: imageNames[indexPath.row]) else {
+                return UICollectionViewCell()
         }
+        
+        cell.configure(image: image)
         
         return cell
     }
@@ -40,6 +52,10 @@ extension FeedViewController: UICollectionViewDataSource {
 
 extension FeedViewController: FeedLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        return 300
+        guard let image = getImage(named: imageNames[indexPath.row]) else {
+            return 0
+        }
+        
+        return image.size.height * (UIScreen.main.bounds.size.width / image.size.width)
     }
 }
