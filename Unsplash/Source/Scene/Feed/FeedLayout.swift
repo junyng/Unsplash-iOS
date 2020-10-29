@@ -53,7 +53,6 @@ class FeedLayout: UICollectionViewLayout {
             cachedAttributes.append(attributes)
             contentHeight = max(contentHeight, frame.maxY)
             yOffset = yOffset + height
-            print(contentWidth)
         }
     }
     
