@@ -37,6 +37,8 @@ class PhotoCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         imageView.image = nil
     }
     
