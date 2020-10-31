@@ -71,6 +71,7 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="thD-62-zuK" firstAttribute="trailing" secondItem="2kH-vy-LDw" secondAttribute="trailing" id="TrG-Dr-HRm"/>
                             <constraint firstItem="2kH-vy-LDw" firstAttribute="top" secondItem="thD-62-zuK" secondAttribute="top" id="ZgR-FQ-S3M"/>
@@ -78,6 +79,9 @@
                             <constraint firstItem="thD-62-zuK" firstAttribute="bottom" secondItem="2kH-vy-LDw" secondAttribute="bottom" id="heA-sg-LO3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="thD-62-zuK"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="1Lx-ko-7Oo" appends="YES" id="D7U-NZ-xte"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="Bvm-5b-IiX"/>
                     <connections>
@@ -85,8 +89,13 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ay1-o3-lZp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="1Lx-ko-7Oo">
+                    <connections>
+                        <action selector="tapGestureRecognized:" destination="5lL-38-ZOv" id="hbT-NF-RhV"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="355.07246376811599" y="-1604.4642857142856"/>
+            <point key="canvasLocation" x="399" y="-1604"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6zR-fs-8Gy">

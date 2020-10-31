@@ -12,11 +12,16 @@ class PhotoDetailViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
     var photoImages: [UIImage]?
+    var isTapped = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureCollectionView()
+    }
+    
+    @IBAction private func tapGestureRecognized(_ sender: UITapGestureRecognizer) {
+        isTapped.toggle()
     }
     
     private func configureCollectionView() {
