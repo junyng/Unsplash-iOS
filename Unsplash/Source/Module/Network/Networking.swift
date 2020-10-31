@@ -19,6 +19,7 @@ class Networking<Resource: ResourceType> {
     
     func request<Model: Decodable> (resource: Resource,
                                     session: Session = URLSession.shared,
+                                    type: Model.Type,
                                     completion: @escaping (Result<Model, Error>) -> Void) {
         let urlRequest = URLRequest(resource: resource)
         
@@ -30,7 +31,7 @@ class Networking<Resource: ResourceType> {
                 }
                 
                 do {
-                    let json = try JSONDecoder().decode(Model.self, from: data)
+                    let json = try JSONDecoder().decode(type, from: data)
                     completion(.success(json))
                 } catch {
                     completion(.failure(NetworkingError.decodingFailed))
