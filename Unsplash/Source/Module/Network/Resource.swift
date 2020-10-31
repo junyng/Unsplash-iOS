@@ -8,16 +8,29 @@
 
 import Foundation
 
+enum HTTPTask {
+    case requestWithParameters(_ parameters: [String: String])
+}
+
 protocol ResourceType {
     var baseURL: URL { get }
     var path: String { get }
+    var task: HTTPTask { get }
 }
 
 extension URLRequest {
     init(resource: ResourceType) {
-        self = URLRequest(url: resource.baseURL.appendingPathComponent(resource.path),
+        var url = resource.baseURL.appendingPathComponent(resource.path)
+        
+        if case let .requestWithParameters(parameters) = resource.task {
+            url = url.appendingQueryParameters(parameters)
+        }
+        
+        self = URLRequest(url: url,
                           cachePolicy: .reloadIgnoringLocalCacheData,
                           timeoutInterval: 10.0)
+        
         self.setValue("application/json", forHTTPHeaderField: "Content-Type")
     }
+    
 }
