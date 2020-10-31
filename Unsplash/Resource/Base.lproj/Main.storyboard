@@ -69,23 +69,44 @@
                                     <outlet property="delegate" destination="5lL-38-ZOv" id="d0t-Yj-GdO"/>
                                 </connections>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gjZ-9Q-RTQ">
+                                <rect key="frame" x="0.0" y="847" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem image="info.circle" catalog="system" id="OLg-Zp-2cf"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="EtC-Rg-CjT"/>
+                                    <barButtonItem image="suit.heart" catalog="system" id="nw0-Bd-o0L"/>
+                                    <barButtonItem image="plus.circle" catalog="system" id="A9J-32-S25"/>
+                                    <barButtonItem image="arrow.down.circle.fill" catalog="system" id="JJS-Q1-bX7"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="gjZ-9Q-RTQ" firstAttribute="trailing" secondItem="thD-62-zuK" secondAttribute="trailing" id="Pfy-gz-ZsY"/>
                             <constraint firstItem="thD-62-zuK" firstAttribute="trailing" secondItem="2kH-vy-LDw" secondAttribute="trailing" id="TrG-Dr-HRm"/>
+                            <constraint firstItem="gjZ-9Q-RTQ" firstAttribute="leading" secondItem="thD-62-zuK" secondAttribute="leading" id="Y1H-xU-y9z"/>
                             <constraint firstItem="2kH-vy-LDw" firstAttribute="top" secondItem="thD-62-zuK" secondAttribute="top" id="ZgR-FQ-S3M"/>
                             <constraint firstItem="2kH-vy-LDw" firstAttribute="leading" secondItem="thD-62-zuK" secondAttribute="leading" id="aZT-UN-b0k"/>
                             <constraint firstItem="thD-62-zuK" firstAttribute="bottom" secondItem="2kH-vy-LDw" secondAttribute="bottom" id="heA-sg-LO3"/>
+                            <constraint firstAttribute="bottom" secondItem="gjZ-9Q-RTQ" secondAttribute="bottom" id="p5i-5t-qnZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="thD-62-zuK"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="1Lx-ko-7Oo" appends="YES" id="D7U-NZ-xte"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" id="Bvm-5b-IiX"/>
+                    <navigationItem key="navigationItem" id="Bvm-5b-IiX">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="xmark" catalog="system" id="JfU-GH-Q31">
+                            <connections>
+                                <action selector="dismissButtonDidTap:" destination="5lL-38-ZOv" id="HdD-Uj-Ce4"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.arrow.up" catalog="system" id="Wbc-W5-ObY"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="2kH-vy-LDw" id="dDi-tO-qt2"/>
+                        <outlet property="toolbar" destination="gjZ-9Q-RTQ" id="9iW-fL-8BO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ay1-o3-lZp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -135,4 +156,12 @@
             <point key="canvasLocation" x="403" y="-1604"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="info.circle" catalog="system" width="128" height="121"/>
+        <image name="plus.circle" catalog="system" width="128" height="121"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <image name="suit.heart" catalog="system" width="128" height="109"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
+    </resources>
 </document>

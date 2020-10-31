@@ -11,10 +11,13 @@ import UIKit
 class PhotoDetailViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var toolbar: UIToolbar!
+    
     var photoImages: [UIImage]?
     var isTapped = false {
         didSet {
             navigationController?.navigationBar.isHidden = isTapped
+            toolbar.isHidden = isTapped
         }
     }
     
@@ -26,6 +29,10 @@ class PhotoDetailViewController: UIViewController {
     
     @IBAction private func tapGestureRecognized(_ sender: UITapGestureRecognizer) {
         isTapped.toggle()
+    }
+    
+    @IBAction func dismissButtonDidTap(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
     
     private func configureCollectionView() {
