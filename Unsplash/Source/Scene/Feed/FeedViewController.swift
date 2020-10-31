@@ -14,6 +14,7 @@ class FeedViewController: UIViewController {
     
     private let photoService = PhotoService(networking: Networking<Unsplash>())
     private var photos = [Photo]()
+    private let imageCache = NSCache<NSString, UIImage>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,12 +62,23 @@ extension FeedViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        if let imageURLString = photos[indexPath.row].imageURL?.regular,
-            let imageURL = URL(string: imageURLString) {
-            loadImage(from: imageURL) { (image) in
-                guard let image = image else { return }
-                
-                cell.configure(image: image)
+        if let imageID = photos[indexPath.row].id,
+            let image = imageCache.object(forKey: imageID as NSString) {
+            cell.configure(image: image)
+        } else {
+            if let imageURLString = photos[indexPath.row].imageURL?.regular,
+                let imageURL = URL(string: imageURLString) {
+                loadImage(from: imageURL) { [weak self] (image) in
+                    guard let image = image else { return }
+                    
+                    cell.configure(image: image)
+                    if let imageID = self?.photos[indexPath.row].id {
+                        self?.imageCache.setObject(image, forKey: imageID as NSString)
+                        self?.collectionView.performBatchUpdates({
+                            self?.collectionView.reloadItems(at: [indexPath])
+                        }, completion: nil)
+                    }
+                }
             }
         }
         
@@ -76,6 +88,9 @@ extension FeedViewController: UICollectionViewDataSource {
 
 extension FeedViewController: FeedLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        return 200
+        guard let imageID = photos[indexPath.row].id,
+            let image = imageCache.object(forKey: imageID as NSString) else { return 100 }
+        
+        return image.size.height * (UIScreen.main.bounds.size.width / image.size.width)
     }
 }
