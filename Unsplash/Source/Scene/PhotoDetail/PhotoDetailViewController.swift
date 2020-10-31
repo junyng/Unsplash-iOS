@@ -13,6 +13,7 @@ class PhotoDetailViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var toolbar: UIToolbar!
     
+    var currentIndexPath: IndexPath?
     var photoImages: [UIImage]?
     var isTapped = false {
         didSet {
@@ -25,6 +26,15 @@ class PhotoDetailViewController: UIViewController {
         super.viewDidLoad()
         
         configureCollectionView()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let currentIndexPath = currentIndexPath {
+            collectionView.layoutIfNeeded()
+            collectionView.scrollToItem(at: currentIndexPath, at: .centeredHorizontally, animated: false)
+        }
     }
     
     @IBAction private func tapGestureRecognized(_ sender: UITapGestureRecognizer) {

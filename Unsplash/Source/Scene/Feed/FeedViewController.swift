@@ -35,7 +35,8 @@ class FeedViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let navigationController = segue.destination as? UINavigationController,
-            let photoDetailViewController = navigationController.topViewController as? PhotoDetailViewController {
+            let photoDetailViewController = navigationController.topViewController as? PhotoDetailViewController,
+            let currentIndexPath = sender as? IndexPath {
             let photoImages = photos.compactMap { (photo: Photo) -> UIImage? in
                 guard let photoID = photo.id,
                     let image = imageCache.object(forKey: photoID as NSString) else {
@@ -44,6 +45,7 @@ class FeedViewController: UIViewController {
                 return image
             }
             photoDetailViewController.photoImages = photoImages
+            photoDetailViewController.currentIndexPath = currentIndexPath
         }
     }
     
@@ -107,7 +109,7 @@ extension FeedViewController: UICollectionViewDataSource {
 
 extension FeedViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "PhotoDetailViewController", sender: nil)
+        performSegue(withIdentifier: "PhotoDetailViewController", sender: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
