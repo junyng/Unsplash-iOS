@@ -37,6 +37,18 @@ class FeedViewController: UIViewController {
             }
         }
     }
+    
+    private func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: url) else {
+                return completion(nil)
+            }
+            
+            DispatchQueue.main.async {
+                completion(UIImage(data: data))
+            }
+        }
+    }
 }
 
 extension FeedViewController: UICollectionViewDataSource {
@@ -49,12 +61,21 @@ extension FeedViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        if let imageURLString = photos[indexPath.row].imageURL?.regular,
+            let imageURL = URL(string: imageURLString) {
+            loadImage(from: imageURL) { (image) in
+                guard let image = image else { return }
+                
+                cell.configure(image: image)
+            }
+        }
+        
         return cell
     }
 }
 
 extension FeedViewController: FeedLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 200
     }
 }
