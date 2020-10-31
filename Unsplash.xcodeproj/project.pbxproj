@@ -23,6 +23,7 @@
 		D8A71C88254D3FF1007F8EA8 /* URLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A71C87254D3FF1007F8EA8 /* URLExtension.swift */; };
 		D8A71C8D254D4262007F8EA8 /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A71C8C254D4262007F8EA8 /* PhotoService.swift */; };
 		D8A71C90254D470A007F8EA8 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A71C8F254D470A007F8EA8 /* Photo.swift */; };
+		D8A71C95254D7307007F8EA8 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A71C94254D7307007F8EA8 /* PhotoDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		D8A71C87254D3FF1007F8EA8 /* URLExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtension.swift; sourceTree = "<group>"; };
 		D8A71C8C254D4262007F8EA8 /* PhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
 		D8A71C8F254D470A007F8EA8 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		D8A71C94254D7307007F8EA8 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				D82902342541CA90003CFD70 /* Feed */,
+				D8A71C91254D72C4007F8EA8 /* PhotoDetail */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -185,6 +188,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		D8A71C91254D72C4007F8EA8 /* PhotoDetail */ = {
+			isa = PBXGroup;
+			children = (
+				D8A71C94254D7307007F8EA8 /* PhotoDetailViewController.swift */,
+			);
+			path = PhotoDetail;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -264,6 +275,7 @@
 				D8A71C8D254D4262007F8EA8 /* PhotoService.swift in Sources */,
 				D869688D254B7B1800C5CA58 /* Session.swift in Sources */,
 				D8A71C90254D470A007F8EA8 /* Photo.swift in Sources */,
+				D8A71C95254D7307007F8EA8 /* PhotoDetailViewController.swift in Sources */,
 				D869688B254B186800C5CA58 /* Resource.swift in Sources */,
 				D8A71C88254D3FF1007F8EA8 /* URLExtension.swift in Sources */,
 				D8290243254295BC003CFD70 /* PhotoCell.swift in Sources */,
