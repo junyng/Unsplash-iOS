@@ -14,7 +14,6 @@ class PhotoCell: UICollectionViewCell {
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.green
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -42,7 +41,8 @@ class PhotoCell: UICollectionViewCell {
         imageView.image = nil
     }
     
-    func configure(image: UIImage) {
+    func configure(image: UIImage, contentMode: UIView.ContentMode = .scaleToFill) {
+        imageView.contentMode = contentMode
         imageView.image = image
     }
 }

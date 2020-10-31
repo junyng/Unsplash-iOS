@@ -40,7 +40,8 @@ class FeedViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationViewController = segue.destination as? PhotoDetailViewController {
+        if let navigationController = segue.destination as? UINavigationController,
+            let photoDetailViewController = navigationController.topViewController as? PhotoDetailViewController {
             let photoImages = photos.compactMap { (photo: Photo) -> UIImage? in
                 guard let photoID = photo.id,
                     let image = imageCache.object(forKey: photoID as NSString) else {
@@ -48,7 +49,7 @@ class FeedViewController: UIViewController {
                 }
                 return image
             }
-            destinationViewController.photoImages = photoImages
+            photoDetailViewController.photoImages = photoImages
         }
     }
     

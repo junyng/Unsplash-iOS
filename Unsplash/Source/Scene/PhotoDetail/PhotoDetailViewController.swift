@@ -12,7 +12,11 @@ class PhotoDetailViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
     var photoImages: [UIImage]?
-    var isTapped = false
+    var isTapped = false {
+        didSet {
+            navigationController?.navigationBar.isHidden = isTapped
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +44,7 @@ extension PhotoDetailViewController: UICollectionViewDataSource {
         }
         
         if let image = photoImages?[indexPath.item] {
-            cell.configure(image: image)
+            cell.configure(image: image, contentMode: .scaleAspectFit)
         }
         
         return cell
