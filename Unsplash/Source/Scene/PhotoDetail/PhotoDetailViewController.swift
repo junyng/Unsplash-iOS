@@ -11,7 +11,7 @@ import UIKit
 class PhotoDetailViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
-    private var photoImages = [UIImage]()
+    var photoImages: [UIImage]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class PhotoDetailViewController: UIViewController {
 
 extension PhotoDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoImages.isEmpty ? 1 : 0
+        return photoImages?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -34,8 +34,9 @@ extension PhotoDetailViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let image = photoImages[indexPath.item]
-        cell.configure(image: image)
+        if let image = photoImages?[indexPath.item] {
+            cell.configure(image: image)
+        }
         
         return cell
     }
@@ -44,7 +45,9 @@ extension PhotoDetailViewController: UICollectionViewDataSource {
 
 extension PhotoDetailViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = collectionView.bounds.size
-        return cellSize
+        let screenSize = UIScreen.main.bounds.size
+        let width = screenSize.width
+        let height = screenSize.height - 64
+        return CGSize(width: width, height: height)
     }
 }

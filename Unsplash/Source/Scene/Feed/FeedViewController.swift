@@ -39,6 +39,19 @@ class FeedViewController: UIViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationViewController = segue.destination as? PhotoDetailViewController {
+            let photoImages = photos.compactMap { (photo: Photo) -> UIImage? in
+                guard let photoID = photo.id,
+                    let image = imageCache.object(forKey: photoID as NSString) else {
+                    return nil
+                }
+                return image
+            }
+            destinationViewController.photoImages = photoImages
+        }
+    }
+    
     private func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
         DispatchQueue.global().async {
             guard let data = try? Data(contentsOf: url) else {
@@ -83,6 +96,12 @@ extension FeedViewController: UICollectionViewDataSource {
         }
         
         return cell
+    }
+}
+
+extension FeedViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "PhotoDetailViewController", sender: nil)
     }
 }
 
