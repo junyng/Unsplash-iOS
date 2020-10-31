@@ -9,7 +9,7 @@
 import Foundation
 
 enum Unsplash: ResourceType {
-    case photos
+    case photos(page: Int?)
     
     var baseURL: URL {
         return URL(fileURLWithPath: "https://api.unsplash.com/")
@@ -23,7 +23,15 @@ enum Unsplash: ResourceType {
     }
     
     var task: HTTPTask {
-        return .requestWithParameters(["client_id":"AOXcpIe46WHyCjLxenpY1bdhuMjfCrKCPT9x2QMzz_Q"])
+        switch self {
+        case .photos(let page):
+            var params: [String: Any] = [:]
+            if let page = page {
+                params["page"] = page
+            }
+            params["client_id"] = "AOXcpIe46WHyCjLxenpY1bdhuMjfCrKCPT9x2QMzz_Q"
+            return .requestWithParameters(params)
+        }
     }
 }
 
@@ -34,8 +42,9 @@ struct PhotoService {
         self.networking = networking
     }
     
-    func fetchPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
-        networking.request(resource: .photos, type: [Photo].self) { (result) in
+    func fetchPhotos(page: Int? = nil,
+                     completion: @escaping (Result<[Photo], Error>) -> Void) {
+        networking.request(resource: .photos(page: page), type: [Photo].self) { (result) in
             completion(result)
         }
     }
