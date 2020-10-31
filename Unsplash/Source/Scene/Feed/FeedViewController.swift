@@ -15,6 +15,7 @@ class FeedViewController: UIViewController {
     private let photoService = PhotoService(networking: Networking<Unsplash>())
     private var photos = [Photo]()
     private let imageCache = NSCache<NSString, UIImage>()
+    private var pageNumber: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,14 +30,7 @@ class FeedViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        photoService.fetchPhotos { (result) in
-            if case let .success(photos) = result {
-                self.photos = photos
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            }
-        }
+        loadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -50,6 +44,17 @@ class FeedViewController: UIViewController {
                 return image
             }
             photoDetailViewController.photoImages = photoImages
+        }
+    }
+    
+    private func loadData() {
+        photoService.fetchPhotos(page: pageNumber) { (result) in
+            if case let .success(photos) = result {
+                self.photos.append(contentsOf: photos)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
         }
     }
     
@@ -103,6 +108,13 @@ extension FeedViewController: UICollectionViewDataSource {
 extension FeedViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "PhotoDetailViewController", sender: nil)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == photos.count - 10 {
+            pageNumber += 1
+            loadData()
+        }
     }
 }
 
