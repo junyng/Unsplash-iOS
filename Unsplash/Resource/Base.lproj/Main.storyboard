@@ -61,7 +61,11 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="EtC-Rg-CjT"/>
                                     <barButtonItem image="suit.heart" catalog="system" id="nw0-Bd-o0L"/>
                                     <barButtonItem image="plus.circle" catalog="system" id="A9J-32-S25"/>
-                                    <barButtonItem image="arrow.down.circle.fill" catalog="system" id="JJS-Q1-bX7"/>
+                                    <barButtonItem image="arrow.down.circle.fill" catalog="system" id="JJS-Q1-bX7">
+                                        <connections>
+                                            <action selector="saveButtonDidTap:" destination="5lL-38-ZOv" id="Og5-z0-ogB"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="d3W-J3-M3M">

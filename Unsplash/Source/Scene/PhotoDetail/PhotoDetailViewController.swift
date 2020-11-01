@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 protocol PhotoDetailViewDelegate: class {
     func indexPathUpdated(_ indexPath: IndexPath?)
@@ -81,6 +82,16 @@ class PhotoDetailViewController: UIViewController {
             present(activityViewController, animated: true)
         }
     }
+    @IBAction private func saveButtonDidTap(_ sender: UIBarButtonItem) {
+        if let indexPath = currentIndexPath,
+            let image = photoImages?[indexPath.item] {
+            PHPhotoLibrary.requestAuthorization({ [weak self] status in
+                if (status == .authorized) {
+                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(self?.image(_:didFinishSavingWithError:contextInfo:)), nil)
+                }
+            })
+        }
+    }
     
     private func configureCollectionView() {
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
@@ -98,6 +109,18 @@ class PhotoDetailViewController: UIViewController {
                 self.delegate?.indexPathUpdated(self.currentIndexPath)
                 self.photoInfoButton.loading(false)
             }
+        }
+    }
+    
+    @objc private func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            let ac = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        } else {
+            let ac = UIAlertController(title: "Saved", message: "image saved to photos", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
         }
     }
 }
