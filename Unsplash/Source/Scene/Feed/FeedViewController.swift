@@ -12,7 +12,8 @@ class FeedViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
     
-    private let searchController = UISearchController(searchResultsController: nil)
+    private var viewHiddenObserver: NSKeyValueObservation?
+    private var searchController: UISearchController!
     private let photoService = PhotoService(networking: Networking<Unsplash>())
     private var photos = [Photo]()
     private let imageCache = NSCache<NSString, UIImage>()
@@ -43,7 +44,7 @@ class FeedViewController: UIViewController {
             let photoImages = photos.compactMap { (photo: Photo) -> UIImage? in
                 guard let photoID = photo.id,
                     let image = imageCache.object(forKey: photoID as NSString) else {
-                    return nil
+                        return nil
                 }
                 return image
             }
@@ -78,6 +79,17 @@ class FeedViewController: UIViewController {
     }
     
     private func configureSearchController() {
+        guard let searchTableViewController = storyboard?.instantiateViewController(withIdentifier: "SearchTableViewController") as? SearchTableViewController else {
+            return
+        }
+        
+        searchController = UISearchController(searchResultsController: searchTableViewController)
+        viewHiddenObserver = searchController.searchResultsController?.view.observe(\.isHidden, changeHandler: { [weak self] (view, _) in
+            guard let self = self else { return }
+            if view.isHidden && self.searchController.searchBar.isFirstResponder {
+                view.isHidden = false
+            }
+        })
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
         searchController.obscuresBackgroundDuringPresentation = false

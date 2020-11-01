@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D81620AF254E98DA0012DD65 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81620AE254E98DA0012DD65 /* SearchTableViewController.swift */; };
 		D82902332541C96E003CFD70 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82902322541C96E003CFD70 /* FeedViewController.swift */; };
 		D8290243254295BC003CFD70 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8290242254295BC003CFD70 /* PhotoCell.swift */; };
 		D82902452542B855003CFD70 /* FeedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82902442542B855003CFD70 /* FeedLayout.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D81620AE254E98DA0012DD65 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		D82902322541C96E003CFD70 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		D8290242254295BC003CFD70 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		D82902442542B855003CFD70 /* FeedLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLayout.swift; sourceTree = "<group>"; };
@@ -63,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D81620AB254E98180012DD65 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				D81620AE254E98DA0012DD65 /* SearchTableViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		D829022A2541C380003CFD70 /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +90,7 @@
 			children = (
 				D82902342541CA90003CFD70 /* Feed */,
 				D8A71C91254D72C4007F8EA8 /* PhotoDetail */,
+				D81620AB254E98180012DD65 /* Search */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -279,6 +290,7 @@
 				D82902332541C96E003CFD70 /* FeedViewController.swift in Sources */,
 				D8A71C97254DB502007F8EA8 /* Exif.swift in Sources */,
 				D82902452542B855003CFD70 /* FeedLayout.swift in Sources */,
+				D81620AF254E98DA0012DD65 /* SearchTableViewController.swift in Sources */,
 				D8A71C8D254D4262007F8EA8 /* PhotoService.swift in Sources */,
 				D869688D254B7B1800C5CA58 /* Session.swift in Sources */,
 				D8A71C90254D470A007F8EA8 /* Photo.swift in Sources */,
