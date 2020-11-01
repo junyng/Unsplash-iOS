@@ -46,6 +46,7 @@ class FeedViewController: UIViewController {
             }
             photoDetailViewController.photoImages = photoImages
             photoDetailViewController.currentIndexPath = currentIndexPath
+            photoDetailViewController.photos = photos
         }
     }
     

@@ -9,6 +9,7 @@
 import Foundation
 
 enum Unsplash: ResourceType {
+    case photo(photoID: String)
     case photos(page: Int?)
     
     var baseURL: URL {
@@ -17,19 +18,23 @@ enum Unsplash: ResourceType {
     
     var path: String {
         switch self {
+        case .photo(let photoID):
+            return "photos/\(photoID)"
         case .photos:
             return "photos"
         }
     }
     
     var task: HTTPTask {
+        var params: [String: Any] = [:]
+        params["client_id"] = "AOXcpIe46WHyCjLxenpY1bdhuMjfCrKCPT9x2QMzz_Q"
         switch self {
+        case .photo:
+            return .requestWithParameters(params)
         case .photos(let page):
-            var params: [String: Any] = [:]
             if let page = page {
                 params["page"] = page
             }
-            params["client_id"] = "AOXcpIe46WHyCjLxenpY1bdhuMjfCrKCPT9x2QMzz_Q"
             return .requestWithParameters(params)
         }
     }
@@ -40,6 +45,13 @@ struct PhotoService {
     
     init(networking: Networking<Unsplash>) {
         self.networking = networking
+    }
+    
+    func fetchPhoto(photoID: String,
+                    completion: @escaping (Result<Photo, Error>) -> Void) {
+        networking.request(resource: .photo(photoID: photoID), type: Photo.self) { (result) in
+            completion(result)
+        }
     }
     
     func fetchPhotos(page: Int? = nil,
