@@ -93,8 +93,10 @@ class FeedViewController: UIViewController {
                 view.isHidden = false
             }
         })
+        definesPresentationContext = true
         navigationItem.hidesSearchBarWhenScrolling = false
-        navigationItem.searchController = searchController
+        navigationItem.titleView = searchController.searchBar
+        searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search photos"
         searchController.searchBar.delegate = self
