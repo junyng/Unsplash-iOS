@@ -12,6 +12,7 @@ class PhotoInfoButton: UIBarButtonItem {
     
     lazy var button: UIButton = {
         let button = UIButton(type: .infoLight)
+        customView = button
         return button
     }()
     
