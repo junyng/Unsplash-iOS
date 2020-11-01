@@ -102,7 +102,11 @@
                                 <action selector="dismissButtonDidTap:" destination="5lL-38-ZOv" id="HdD-Uj-Ce4"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.arrow.up" catalog="system" id="Wbc-W5-ObY"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.arrow.up" catalog="system" id="Wbc-W5-ObY">
+                            <connections>
+                                <action selector="shareButtonDidTap:" destination="5lL-38-ZOv" id="uOJ-Do-mY3"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="d3W-J3-M3M" id="X4p-aL-3Up"/>

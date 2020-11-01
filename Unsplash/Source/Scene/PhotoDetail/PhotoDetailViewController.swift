@@ -72,6 +72,16 @@ class PhotoDetailViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func shareButtonDidTap(_ sender: UIBarButtonItem) {
+        if let indexPath = currentIndexPath,
+            let image = photoImages?[indexPath.item] {
+            let activityViewController = UIActivityViewController(activityItems: [image],
+                                                                  applicationActivities: nil)
+            activityViewController.excludedActivityTypes = [.saveToCameraRoll, .assignToContact, .print]
+            present(activityViewController, animated: true)
+        }
+    }
+    
     private func configureCollectionView() {
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
