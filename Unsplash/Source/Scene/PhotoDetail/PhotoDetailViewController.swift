@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol PhotoDetailViewDelegate: class {
+    func indexPathUpdated(_ indexPath: IndexPath?)
+}
+
 class PhotoDetailViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -21,6 +25,7 @@ class PhotoDetailViewController: UIViewController {
     private let photoService = PhotoService(networking: Networking<Unsplash>())
     private var isFirstLoaded = true
     
+    weak var delegate: PhotoDetailViewDelegate?
     var currentIndexPath: IndexPath?
     var photoImages: [UIImage]?
     var photos: [Photo]?
@@ -79,6 +84,8 @@ class PhotoDetailViewController: UIViewController {
         photoInfoButton.loading(true)
         photoService.fetchPhoto(photoID: photoID) { (result) in
             if case let .success(photo) = result {
+                self.currentIndexPath = indexPath
+                self.delegate?.indexPathUpdated(self.currentIndexPath)
                 self.photoInfoButton.loading(false)
             }
         }

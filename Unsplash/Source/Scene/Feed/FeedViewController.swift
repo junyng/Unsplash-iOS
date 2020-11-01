@@ -47,6 +47,7 @@ class FeedViewController: UIViewController {
             photoDetailViewController.photoImages = photoImages
             photoDetailViewController.currentIndexPath = currentIndexPath
             photoDetailViewController.photos = photos
+            photoDetailViewController.delegate = self
         }
     }
     
@@ -127,5 +128,14 @@ extension FeedViewController: FeedLayoutDelegate {
             let image = imageCache.object(forKey: imageID as NSString) else { return 100 }
         
         return image.size.height * (UIScreen.main.bounds.size.width / image.size.width)
+    }
+}
+
+extension FeedViewController: PhotoDetailViewDelegate {
+    func indexPathUpdated(_ indexPath: IndexPath?) {
+        if let indexPath = indexPath {
+            collectionView.layoutIfNeeded()
+            collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+        }
     }
 }
