@@ -12,6 +12,7 @@ class FeedViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    private var searchResultsViewController: SearchResultsViewController?
     private var viewHiddenObserver: NSKeyValueObservation?
     private var searchController: UISearchController!
     private let photoService = PhotoService(networking: Networking<Unsplash>())
@@ -79,11 +80,12 @@ class FeedViewController: UIViewController {
     }
     
     private func configureSearchController() {
-        guard let searchTableViewController = storyboard?.instantiateViewController(withIdentifier: "SearchResultsViewController") as? SearchResultsViewController else {
+        guard let searchResultsViewController = storyboard?.instantiateViewController(withIdentifier: "SearchResultsViewController") as? SearchResultsViewController else {
             return
         }
         
-        searchController = UISearchController(searchResultsController: searchTableViewController)
+        self.searchResultsViewController = searchResultsViewController
+        searchController = UISearchController(searchResultsController: searchResultsViewController)
         viewHiddenObserver = searchController.searchResultsController?.view.observe(\.isHidden, changeHandler: { [weak self] (view, _) in
             guard let self = self else { return }
             if view.isHidden && self.searchController.searchBar.isFirstResponder {
@@ -163,4 +165,9 @@ extension FeedViewController: PhotoDetailViewDelegate {
     }
 }
 
-extension FeedViewController: UISearchBarDelegate {}
+extension FeedViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchController.searchBar.text else { return }
+        searchResultsViewController?.search(searchText)
+    }
+}

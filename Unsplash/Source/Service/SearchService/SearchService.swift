@@ -18,6 +18,10 @@ struct SearchService {
         self.storage = storage
     }
     
+    func fetchSearchKeywords() -> [String]? {
+        return storage.read(for: "SearchKeywords", type: [String].self)
+    }
+    
     func searchPhotos(query: String,
                       completion: @escaping (Result<PhotosResult, Error>) -> Void) {
         
