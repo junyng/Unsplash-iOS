@@ -12,6 +12,7 @@ class FeedViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    private let searchController = UISearchController(searchResultsController: nil)
     private let photoService = PhotoService(networking: Networking<Unsplash>())
     private var photos = [Photo]()
     private let imageCache = NSCache<NSString, UIImage>()
@@ -25,6 +26,8 @@ class FeedViewController: UIViewController {
         if let layout = collectionView.collectionViewLayout as? FeedLayout {
             layout.delegate = self
         }
+        
+        configureSearchController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -72,6 +75,13 @@ class FeedViewController: UIViewController {
                 completion(UIImage(data: data))
             }
         }
+    }
+    
+    private func configureSearchController() {
+        navigationItem.searchController = searchController
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search photos"
+        searchController.searchBar.delegate = self
     }
 }
 
@@ -139,3 +149,5 @@ extension FeedViewController: PhotoDetailViewDelegate {
         }
     }
 }
+
+extension FeedViewController: UISearchBarDelegate {}
