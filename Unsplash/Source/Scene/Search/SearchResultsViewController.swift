@@ -19,7 +19,7 @@ class SearchResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "SearchKeywordTableViewCell")
+        configureTableView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,6 +37,11 @@ class SearchResultsViewController: UIViewController {
     func loadKeywords() {
         keywords = searchService.fetchSearchKeywords()
         tableView.reloadData()
+    }
+    
+    private func configureTableView() {
+        tableView.tableFooterView = UIView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "SearchKeywordTableViewCell")
     }
 }
 
