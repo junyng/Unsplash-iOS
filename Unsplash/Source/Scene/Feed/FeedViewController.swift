@@ -149,10 +149,12 @@ extension FeedViewController: UICollectionViewDelegate {
 
 extension FeedViewController: FeedLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        guard let imageID = photos[indexPath.row].id,
-            let image = imageCache.object(forKey: imageID as NSString) else { return 100 }
+        let photo = photos[indexPath.item]
+        let screenWidth = UIScreen.main.bounds.size.width
+        guard let width = photo.width,
+            let height = photo.height else { return 180 }
         
-        return image.size.height * (UIScreen.main.bounds.size.width / image.size.width)
+        return CGFloat(height) * screenWidth / CGFloat(width)
     }
 }
 
