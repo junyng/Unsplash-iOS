@@ -78,6 +78,7 @@ class FeedViewController: UIViewController {
     }
     
     private func configureSearchController() {
+        navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search photos"
