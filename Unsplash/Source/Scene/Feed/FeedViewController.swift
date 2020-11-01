@@ -79,7 +79,7 @@ class FeedViewController: UIViewController {
     }
     
     private func configureSearchController() {
-        guard let searchTableViewController = storyboard?.instantiateViewController(withIdentifier: "SearchTableViewController") as? SearchTableViewController else {
+        guard let searchTableViewController = storyboard?.instantiateViewController(withIdentifier: "SearchResultsViewController") as? SearchResultsViewController else {
             return
         }
         
