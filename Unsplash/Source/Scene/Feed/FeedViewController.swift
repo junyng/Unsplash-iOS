@@ -113,17 +113,18 @@ extension FeedViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        if let imageID = photos[indexPath.row].id,
+        if let imageID = photos[indexPath.item].id,
             let image = imageCache.object(forKey: imageID as NSString) {
             cell.configure(image: image)
         } else {
-            if let imageURLString = photos[indexPath.row].imageURL?.regular,
-                let imageURL = URL(string: imageURLString) {
+            if let imageURLString = photos[indexPath.item].imageURL?.regular,
+                let imageURL = URL(string: imageURLString),
+                let userName = photos[indexPath.item].user?.fullName {
                 loadImage(from: imageURL) { [weak self] (image) in
                     guard let image = image else { return }
                     
-                    cell.configure(image: image)
-                    if let imageID = self?.photos[indexPath.row].id {
+                    cell.configure(image: image, title: userName)
+                    if let imageID = self?.photos[indexPath.item].id {
                         self?.imageCache.setObject(image, forKey: imageID as NSString)
                         self?.collectionView.performBatchUpdates({
                             self?.collectionView.reloadItems(at: [indexPath])
