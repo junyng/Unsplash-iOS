@@ -11,6 +11,7 @@ import Foundation
 enum Unsplash: ResourceType {
     case photo(photoID: String)
     case photos(page: Int?)
+    case searchPhotos(query: String)
     
     var baseURL: URL {
         return URL(fileURLWithPath: "https://api.unsplash.com/")
@@ -22,6 +23,8 @@ enum Unsplash: ResourceType {
             return "photos/\(photoID)"
         case .photos:
             return "photos"
+        case .searchPhotos:
+            return "search/photos"
         }
     }
     
@@ -35,6 +38,9 @@ enum Unsplash: ResourceType {
             if let page = page {
                 params["page"] = page
             }
+            return .requestWithParameters(params)
+        case .searchPhotos(let query):
+            params["query"] = query
             return .requestWithParameters(params)
         }
     }
