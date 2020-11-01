@@ -16,6 +16,7 @@ class FeedLayout: UICollectionViewLayout {
     
     weak var delegate: FeedLayoutDelegate?
     
+    private let spacingForLine: CGFloat = 1
     private var contentWidth: CGFloat {
         guard let collectionView = collectionView else {
             return 0
@@ -52,7 +53,7 @@ class FeedLayout: UICollectionViewLayout {
             attributes.frame = frame
             cachedAttributes.append(attributes)
             contentHeight = max(contentHeight, frame.maxY)
-            yOffset = yOffset + height
+            yOffset = yOffset + height + spacingForLine
         }
     }
     
