@@ -9,6 +9,7 @@
 import UIKit
 
 protocol SearchResultsViewDelegate: class {
+    func didSearchKeywordSelected(_ keyword: String)
     func didSearchEnded()
 }
 
@@ -107,6 +108,7 @@ extension SearchResultsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let keyword = keywords?[indexPath.row] else { return }
         search(keyword)
+        delegate?.didSearchKeywordSelected(keyword)
     }
 }
 

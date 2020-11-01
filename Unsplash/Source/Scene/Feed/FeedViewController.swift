@@ -176,6 +176,10 @@ extension FeedViewController: UISearchBarDelegate {
 }
 
 extension FeedViewController: SearchResultsViewDelegate {
+    func didSearchKeywordSelected(_ keyword: String) {
+        searchController.searchBar.text = keyword
+    }
+    
     func didSearchEnded() {
         searchController.searchBar.endEditing(true)
     }
