@@ -24,9 +24,9 @@ struct SearchService {
     
     func searchPhotos(query: String,
                       completion: @escaping (Result<PhotosResult, Error>) -> Void) {
-        
         if let queries = storage.read(for: "SearchKeywords", type: [String].self) {
-            storage.write(value: queries + [query], for: "SearchKeywords", type: [String].self)
+            let filteredQueries = queries.filter { $0 != query }
+            storage.write(value: [query] + filteredQueries, for: "SearchKeywords", type: [String].self)
         } else {
             storage.write(value: [query], for: "SearchKeywords", type: [String].self)
         }
