@@ -84,6 +84,7 @@ class FeedViewController: UIViewController {
             return
         }
         
+        searchResultsViewController.delegate = self
         self.searchResultsViewController = searchResultsViewController
         searchController = UISearchController(searchResultsController: searchResultsViewController)
         viewHiddenObserver = searchController.searchResultsController?.view.observe(\.isHidden, changeHandler: { [weak self] (view, _) in
@@ -171,5 +172,11 @@ extension FeedViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchController.searchBar.text else { return }
         searchResultsViewController?.search(searchText)
+    }
+}
+
+extension FeedViewController: SearchResultsViewDelegate {
+    func didSearchEnded() {
+        searchController.searchBar.endEditing(true)
     }
 }

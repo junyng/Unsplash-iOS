@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SearchResultsViewDelegate: class {
+    func didSearchEnded()
+}
+
 class SearchResultsViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView!
@@ -18,6 +22,8 @@ class SearchResultsViewController: UIViewController {
     private var keywords: [String]?
     private var photoResult: PhotosResult?
     private let imageCache = NSCache<NSString, UIImage>()
+    
+    weak var delegate: SearchResultsViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +42,7 @@ class SearchResultsViewController: UIViewController {
         searchService.searchPhotos(query: keyword) { [weak self] (result) in
             if case let .success(photoResult) = result {
                 self?.photoResult = photoResult
+                self?.delegate?.didSearchEnded()
                 DispatchQueue.main.async {
                     self?.tableView.isHidden = true
                     self?.collectionView.isHidden = false
