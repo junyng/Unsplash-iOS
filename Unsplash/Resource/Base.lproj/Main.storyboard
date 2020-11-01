@@ -167,40 +167,37 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ixo-L3-aTz">
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="BjS-ln-KNc" style="IBUITableViewCellStyleDefault" id="bM1-Fv-lvW">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bM1-Fv-lvW" id="uuq-gb-4C8">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BjS-ln-KNc">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="B8C-eO-xiX" id="8oq-ok-fpx"/>
+                                    <outlet property="delegate" destination="B8C-eO-xiX" id="1ck-FS-5BP"/>
                                 </connections>
                             </tableView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Wdt-Hl-Qub">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewLayout key="collectionViewLayout" id="8q0-Cq-kcn" customClass="FeedLayout" customModule="Unsplash" customModuleProvider="target"/>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="B8C-eO-xiX" id="UpL-LJ-f4z"/>
+                                    <outlet property="delegate" destination="B8C-eO-xiX" id="2QK-FR-Q8F"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Ixo-L3-aTz" secondAttribute="bottom" id="6AE-E2-KgD"/>
                             <constraint firstItem="Ixo-L3-aTz" firstAttribute="leading" secondItem="Fs1-Op-pXg" secondAttribute="leading" id="9oc-sm-sab"/>
+                            <constraint firstItem="Wdt-Hl-Qub" firstAttribute="trailing" secondItem="Fs1-Op-pXg" secondAttribute="trailing" id="GGv-FG-p2g"/>
                             <constraint firstItem="Ixo-L3-aTz" firstAttribute="trailing" secondItem="Fs1-Op-pXg" secondAttribute="trailing" id="Sjd-RV-ASt"/>
+                            <constraint firstItem="Wdt-Hl-Qub" firstAttribute="top" secondItem="lz2-VN-TLM" secondAttribute="top" id="ZD9-8F-vc0"/>
                             <constraint firstItem="Ixo-L3-aTz" firstAttribute="top" secondItem="Fs1-Op-pXg" secondAttribute="top" id="aKy-hJ-UGU"/>
+                            <constraint firstAttribute="bottom" secondItem="Wdt-Hl-Qub" secondAttribute="bottom" id="dQu-ly-Gg5"/>
+                            <constraint firstItem="Wdt-Hl-Qub" firstAttribute="leading" secondItem="Fs1-Op-pXg" secondAttribute="leading" id="oLh-bT-Ags"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Fs1-Op-pXg"/>
                     </view>
                     <connections>
+                        <outlet property="collectionView" destination="Wdt-Hl-Qub" id="iYa-wI-Svg"/>
                         <outlet property="tableView" destination="Ixo-L3-aTz" id="Vjz-5K-M2z"/>
                     </connections>
                 </viewController>
