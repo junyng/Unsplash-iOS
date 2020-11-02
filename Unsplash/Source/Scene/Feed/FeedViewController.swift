@@ -63,7 +63,11 @@ class FeedViewController: UIViewController {
     private func loadData() {
         photoService.fetchPhotos(page: pageNumber) { (result) in
             if case let .success(photos) = result {
-                self.photos = photos
+                if self.photos != nil {
+                    self.photos?.append(contentsOf: photos)
+                } else {
+                    self.photos = photos
+                }
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -108,7 +112,7 @@ class FeedViewController: UIViewController {
     }
 }
 
-extension FeedViewController: UICollectionViewDataSource {
+extension FeedViewController: UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos?.count ?? 0
     }
@@ -132,25 +136,27 @@ extension FeedViewController: UICollectionViewDataSource {
                     guard let image = image else { return }
                     cell.configure(image: image, title: photo.user?.fullName)
                     self?.imageCache.setObject(image, forKey: photoID as NSString)
-                    self?.collectionView.performBatchUpdates({
-                        self?.collectionView.layoutIfNeeded()
-                        self?.collectionView.reloadItems(at: [indexPath])
-                    }, completion: nil)
                 }
             }
         }
         
-        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if photos!.count - 1 == indexPath.item {
+                pageNumber += 1
+                print(pageNumber)
+                loadData()
+            }
+        }
     }
 }
 
 extension FeedViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "PhotoDetailViewController", sender: indexPath)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
     }
 }
 

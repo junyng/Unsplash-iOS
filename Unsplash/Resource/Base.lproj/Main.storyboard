@@ -24,6 +24,7 @@
                                 <connections>
                                     <outlet property="dataSource" destination="d2z-hl-T81" id="JEQ-Bc-cvf"/>
                                     <outlet property="delegate" destination="d2z-hl-T81" id="bgy-Ws-PMn"/>
+                                    <outlet property="prefetchDataSource" destination="d2z-hl-T81" id="QTq-ZH-NPe"/>
                                 </connections>
                             </collectionView>
                         </subviews>
@@ -235,7 +236,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Yy5-hi-Jjx"/>
+        <segue reference="9KS-yx-rwS"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
