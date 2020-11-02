@@ -52,6 +52,24 @@ class SearchResultsViewController: UIViewController {
         loadKeywords()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let navigationController = segue.destination as? UINavigationController,
+            let photoDetailViewController = navigationController.topViewController as? PhotoDetailViewController,
+            let currentIndexPath = sender as? IndexPath {
+            let photoImages = photoResult?.results?.compactMap { (photo: Photo) -> UIImage? in
+                guard let photoID = photo.id,
+                    let image = imageCache.object(forKey: photoID as NSString) else {
+                        return nil
+                }
+                return image
+            }
+            photoDetailViewController.photoImages = photoImages
+            photoDetailViewController.currentIndexPath = currentIndexPath
+            photoDetailViewController.photos = photoResult?.results
+            photoDetailViewController.delegate = self
+        }
+    }
+    
     func search(_ keyword: String) {
         collectionView.backgroundView = activityIndicatorView
         activityIndicatorView.startAnimating()
@@ -173,6 +191,12 @@ extension SearchResultsViewController: UICollectionViewDataSource {
     }
 }
 
+extension SearchResultsViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "PhotoDetailViewController", sender: indexPath)
+    }
+}
+
 extension SearchResultsViewController: FeedLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         guard let photoResults = photoResult,
@@ -182,5 +206,14 @@ extension SearchResultsViewController: FeedLayoutDelegate {
         let collectionViewWidth = collectionView.bounds.size.width
         
         return CGFloat(height) * collectionViewWidth / CGFloat(width)
+    }
+}
+
+extension SearchResultsViewController: PhotoDetailViewDelegate {
+    func indexPathUpdated(_ indexPath: IndexPath?) {
+        if let indexPath = indexPath {
+            collectionView.layoutIfNeeded()
+            collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+        }
     }
 }
