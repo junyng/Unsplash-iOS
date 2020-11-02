@@ -14,7 +14,16 @@ class FeedViewController: UIViewController {
     
     private var searchResultsViewController: SearchResultsViewController?
     private var viewHiddenObserver: NSKeyValueObservation?
-    private var searchController: UISearchController!
+    private var searchController: UISearchController! {
+        didSet {
+            viewHiddenObserver = searchController.searchResultsController?.view.observe(\.isHidden, changeHandler: { [weak self] (view, _) in
+                guard let self = self else { return }
+                if view.isHidden && self.searchController.searchBar.isFirstResponder {
+                    view.isHidden = false
+                }
+            })
+        }
+    }
     private let photoService = PhotoService(networking: Networking<Unsplash>())
     private var photos: [Photo]?
     private let imageCache = NSCache<NSString, UIImage>()
@@ -23,12 +32,7 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
-        
-        if let layout = collectionView.collectionViewLayout as? FeedLayout {
-            layout.delegate = self
-        }
-        
+        configureCollectionView()
         configureSearchController()
     }
     
@@ -79,6 +83,13 @@ class FeedViewController: UIViewController {
         }
     }
     
+    private func configureCollectionView() {
+        collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+        if let layout = collectionView.collectionViewLayout as? FeedLayout {
+            layout.delegate = self
+        }
+    }
+    
     private func configureSearchController() {
         guard let searchResultsViewController = storyboard?.instantiateViewController(withIdentifier: "SearchResultsViewController") as? SearchResultsViewController else {
             return
@@ -87,12 +98,6 @@ class FeedViewController: UIViewController {
         searchResultsViewController.delegate = self
         self.searchResultsViewController = searchResultsViewController
         searchController = UISearchController(searchResultsController: searchResultsViewController)
-        viewHiddenObserver = searchController.searchResultsController?.view.observe(\.isHidden, changeHandler: { [weak self] (view, _) in
-            guard let self = self else { return }
-            if view.isHidden && self.searchController.searchBar.isFirstResponder {
-                view.isHidden = false
-            }
-        })
         definesPresentationContext = true
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.titleView = searchController.searchBar
