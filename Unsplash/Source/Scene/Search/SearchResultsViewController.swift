@@ -150,24 +150,21 @@ extension SearchResultsViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        if let photoResults = photoResult?.results,
-            let imageID = photoResults[indexPath.row].id,
-            let image = imageCache.object(forKey: imageID as NSString) {
-            cell.configure(image: image)
-        } else {
-            if let photoResults = photoResult?.results,
-                let imageURLString = photoResults[indexPath.row].imageURL?.regular,
-                let imageURL = URL(string: imageURLString) {
-                loadImage(from: imageURL) { [weak self] (image) in
+        if let photoResult = photoResult,
+            let photo = photoResult.results?[indexPath.item],
+            let photoID = photo.id {
+            
+            if let image = imageCache.object(forKey: photoID as NSString) {
+                cell.configure(image: image, title: photo.user?.fullName)
+                return cell
+            }
+            
+            if let urlString = photo.imageURL?.regular,
+                let url = URL(string: urlString) {
+                loadImage(from: url) { [weak self] (image) in
                     guard let image = image else { return }
-                    
-                    cell.configure(image: image)
-                    if let imageID = self?.photoResult?.results?[indexPath.row].id {
-                        self?.imageCache.setObject(image, forKey: imageID as NSString)
-                        self?.collectionView.performBatchUpdates({
-                            self?.collectionView.reloadItems(at: [indexPath])
-                        }, completion: nil)
-                    }
+                    cell.configure(image: image, title: photo.user?.fullName)
+                    self?.imageCache.setObject(image, forKey: photoID as NSString)
                 }
             }
         }
