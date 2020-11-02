@@ -31,6 +31,12 @@ class SearchResultsViewController: UIViewController {
         return label
     }()
     
+    private lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.hidesWhenStopped = true
+        return activityIndicatorView
+    }()
+    
     weak var delegate: SearchResultsViewDelegate?
     
     override func viewDidLoad() {
@@ -47,17 +53,27 @@ class SearchResultsViewController: UIViewController {
     }
     
     func search(_ keyword: String) {
+        collectionView.backgroundView = activityIndicatorView
+        activityIndicatorView.startAnimating()
         searchService.searchPhotos(query: keyword) { [weak self] (result) in
             if case let .success(photoResult) = result {
                 self?.photoResult = photoResult
                 self?.delegate?.didSearchEnded()
                 DispatchQueue.main.async {
+                    self?.activityIndicatorView.stopAnimating()
+                    self?.tableView.backgroundView = nil
                     self?.tableView.isHidden = true
                     self?.collectionView.isHidden = false
+                    self?.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredVertically, animated: false)
                     self?.collectionView.reloadData()
                 }
             }
         }
+    }
+    
+    func cancelSearch() {
+        self.collectionView.isHidden = true
+        self.tableView.backgroundView = nil
     }
     
     func loadKeywords() {

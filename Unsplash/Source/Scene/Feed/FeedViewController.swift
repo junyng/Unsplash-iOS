@@ -147,7 +147,6 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDataSo
         for indexPath in indexPaths {
             if photos!.count - 1 == indexPath.item {
                 pageNumber += 1
-                print(pageNumber)
                 loadData()
             }
         }
@@ -184,6 +183,10 @@ extension FeedViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchController.searchBar.text else { return }
         searchResultsViewController?.search(searchText)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchResultsViewController?.cancelSearch()
     }
 }
 
