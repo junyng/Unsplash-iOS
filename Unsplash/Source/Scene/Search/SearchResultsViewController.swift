@@ -23,6 +23,13 @@ class SearchResultsViewController: UIViewController {
     private var keywords: [String]?
     private var photoResult: PhotosResult?
     private let imageCache = NSCache<NSString, UIImage>()
+    private lazy var noResultsLabel: UILabel = {
+        let label = UILabel(frame: collectionView.frame)
+        label.text = "No results"
+        label.font = label.font.withSize(36)
+        label.textAlignment = .center
+        return label
+    }()
     
     weak var delegate: SearchResultsViewDelegate?
     
@@ -114,6 +121,11 @@ extension SearchResultsViewController: UITableViewDelegate {
 
 extension SearchResultsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let results = photoResult?.results, !results.isEmpty {
+            collectionView.backgroundView = nil
+        } else {
+            collectionView.backgroundView = noResultsLabel
+        }
         return photoResult?.results?.count ?? 0
     }
     
