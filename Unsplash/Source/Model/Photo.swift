@@ -41,11 +41,3 @@ struct Photo: Decodable {
         case user
     }
 }
-
-struct ImageURL: Decodable {
-    let full: String?
-    let raw: String?
-    let regular: String?
-    let small: String?
-    let thumb: String?
-}
