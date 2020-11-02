@@ -38,6 +38,7 @@ class FeedLayout: UICollectionViewLayout {
         guard let collectionView = collectionView else { return }
         
         cachedAttributes.removeAll()
+        contentHeight = 0
         
         var yOffset: CGFloat = 0
         for item in 0..<collectionView.numberOfItems(inSection: 0) {
