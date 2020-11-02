@@ -16,7 +16,7 @@ class FeedViewController: UIViewController {
     private var viewHiddenObserver: NSKeyValueObservation?
     private var searchController: UISearchController!
     private let photoService = PhotoService(networking: Networking<Unsplash>())
-    private var photos = [Photo]()
+    private var photos: [Photo]?
     private let imageCache = NSCache<NSString, UIImage>()
     private var pageNumber: Int = 0
     
@@ -42,7 +42,7 @@ class FeedViewController: UIViewController {
         if let navigationController = segue.destination as? UINavigationController,
             let photoDetailViewController = navigationController.topViewController as? PhotoDetailViewController,
             let currentIndexPath = sender as? IndexPath {
-            let photoImages = photos.compactMap { (photo: Photo) -> UIImage? in
+            let photoImages = photos?.compactMap { (photo: Photo) -> UIImage? in
                 guard let photoID = photo.id,
                     let image = imageCache.object(forKey: photoID as NSString) else {
                         return nil
@@ -59,7 +59,7 @@ class FeedViewController: UIViewController {
     private func loadData() {
         photoService.fetchPhotos(page: pageNumber) { (result) in
             if case let .success(photos) = result {
-                self.photos.append(contentsOf: photos)
+                self.photos = photos
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -105,7 +105,7 @@ class FeedViewController: UIViewController {
 
 extension FeedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return photos?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -113,26 +113,28 @@ extension FeedViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        if let imageID = photos[indexPath.item].id,
-            let image = imageCache.object(forKey: imageID as NSString) {
-            cell.configure(image: image)
-        } else {
-            if let imageURLString = photos[indexPath.item].imageURL?.regular,
-                let imageURL = URL(string: imageURLString),
-                let userName = photos[indexPath.item].user?.fullName {
-                loadImage(from: imageURL) { [weak self] (image) in
+        if let photo = photos?[indexPath.item],
+            let photoID = photo.id {
+            
+            if let image = imageCache.object(forKey: photoID as NSString) {
+                cell.configure(image: image, title: photo.user?.fullName)
+                return cell
+            }
+            
+            if let urlString = photo.imageURL?.regular,
+                let url = URL(string: urlString) {
+                loadImage(from: url) { [weak self] (image) in
                     guard let image = image else { return }
-                    
-                    cell.configure(image: image, title: userName)
-                    if let imageID = self?.photos[indexPath.item].id {
-                        self?.imageCache.setObject(image, forKey: imageID as NSString)
-                        self?.collectionView.performBatchUpdates({
-                            self?.collectionView.reloadItems(at: [indexPath])
-                        }, completion: nil)
-                    }
+                    cell.configure(image: image, title: photo.user?.fullName)
+                    self?.imageCache.setObject(image, forKey: photoID as NSString)
+                    self?.collectionView.performBatchUpdates({
+                        self?.collectionView.layoutIfNeeded()
+                        self?.collectionView.reloadItems(at: [indexPath])
+                    }, completion: nil)
                 }
             }
         }
+        
         
         return cell
     }
@@ -144,18 +146,14 @@ extension FeedViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.item == photos.count - 10 {
-            pageNumber += 1
-            loadData()
-        }
     }
 }
 
 extension FeedViewController: FeedLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let photo = photos[indexPath.item]
         let screenWidth = UIScreen.main.bounds.size.width
-        guard let width = photo.width,
+        guard let photo = photos?[indexPath.item],
+            let width = photo.width,
             let height = photo.height else { return 180 }
         
         return CGFloat(height) * screenWidth / CGFloat(width)
