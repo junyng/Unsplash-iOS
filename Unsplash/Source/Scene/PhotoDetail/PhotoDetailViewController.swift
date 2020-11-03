@@ -22,6 +22,7 @@ class PhotoDetailViewController: UIViewController {
             photoInfoButton.button.addTarget(self, action: #selector(action(sender:)), for: .touchUpInside)
         }
     }
+    private var cardView: CardView!
     
     private let photoService = PhotoService(networking: Networking<Unsplash>())
     private var isFirstLoaded = true
@@ -42,6 +43,7 @@ class PhotoDetailViewController: UIViewController {
         super.viewDidLoad()
         
         configureCollectionView()
+        configureCardView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -62,7 +64,26 @@ class PhotoDetailViewController: UIViewController {
     }
     
     @objc func action(sender: UIButton) {
-        print("action")
+        guard let indexPath = currentIndexPath,
+            let photo = photos?[indexPath.item],
+            let exif = photo.exif else { return }
+        print(exif)
+        let mirrored = Mirror(reflecting: exif)
+        let contents = mirrored.children.enumerated().compactMap { item -> (String, String)? in
+            guard let propertyName = item.element.label else { return nil }
+            guard let propertyValue = item.element.value as? String else { return (propertyName, "-") }
+            return (propertyName, propertyValue)
+        }
+        cardView.configure(contents: contents)
+        UIView.animate(withDuration: 0.1,
+                       delay: 0,
+                       options: .curveEaseOut, animations: { [weak self] in
+                        guard let self = self else { return }
+                        self.cardView.frame = CGRect(origin: CGPoint(x: .zero, y: self.view.bounds.height * 0.6),
+                                                      size: CGSize(width: self.view.bounds.width, height: self.view.bounds.height * 0.4))
+        }) { (_) in
+            
+        }
     }
     
     @IBAction private func tapGestureRecognized(_ sender: UITapGestureRecognizer) {
@@ -97,6 +118,13 @@ class PhotoDetailViewController: UIViewController {
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
     
+    private func configureCardView() {
+        let viewSize = view.bounds.size
+        cardView = CardView(frame: CGRect(origin: CGPoint(x: .zero, y: view.frame.maxY),
+                                          size: CGSize(width: viewSize.width, height: viewSize.height * 0.4)))
+        view.addSubview(cardView)
+    }
+    
     private func loadPhotoInfo() {
         guard let indexPath = collectionView.indexPathsForVisibleItems.first,
             let photoID = photos?[indexPath.item].id,
@@ -111,6 +139,7 @@ class PhotoDetailViewController: UIViewController {
                 self.currentIndexPath = indexPath
                 self.delegate?.indexPathUpdated(self.currentIndexPath)
                 self.photoInfoButton.loading(false)
+                self.photos?[indexPath.item] = photo
             }
         }
     }
