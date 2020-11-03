@@ -56,7 +56,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gjZ-9Q-RTQ">
-                                <rect key="frame" x="0.0" y="852" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="847" width="414" height="49"/>
                                 <items>
                                     <barButtonItem systemItem="done" id="OLg-Zp-2cf" customClass="PhotoInfoButton" customModule="Unsplash" customModuleProvider="target"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="EtC-Rg-CjT"/>
@@ -70,7 +70,7 @@
                                 </items>
                             </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="d3W-J3-M3M">
-                                <rect key="frame" x="0.0" y="88" width="414" height="764"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="759"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="MpZ-pG-H1N">
                                     <size key="itemSize" width="128" height="128"/>
@@ -82,6 +82,7 @@
                                 <connections>
                                     <outlet property="dataSource" destination="5lL-38-ZOv" id="79P-z0-bXd"/>
                                     <outlet property="delegate" destination="5lL-38-ZOv" id="nhd-yb-N76"/>
+                                    <outlet property="prefetchDataSource" destination="5lL-38-ZOv" id="hmg-f7-gjG"/>
                                 </connections>
                             </collectionView>
                         </subviews>

@@ -28,9 +28,11 @@ class PhotoDetailViewController: UIViewController {
     private var isFirstLoaded = true
     
     weak var delegate: PhotoDetailViewDelegate?
+    
     var currentIndexPath: IndexPath?
-    var photoImages: [UIImage]?
     var photos: [Photo]?
+    var pageNumber: Int?
+    var imageCache: NSCache<NSString, UIImage>?
     
     var isTapped = false {
         didSet {
@@ -67,7 +69,6 @@ class PhotoDetailViewController: UIViewController {
         guard let indexPath = currentIndexPath,
             let photo = photos?[indexPath.item],
             let exif = photo.exif else { return }
-        print(exif)
         let mirrored = Mirror(reflecting: exif)
         let contents = mirrored.children.enumerated().compactMap { item -> (String, String)? in
             guard let propertyName = item.element.label else { return nil }
@@ -95,23 +96,23 @@ class PhotoDetailViewController: UIViewController {
     }
     
     @IBAction func shareButtonDidTap(_ sender: UIBarButtonItem) {
-        if let indexPath = currentIndexPath,
-            let image = photoImages?[indexPath.item] {
-            let activityViewController = UIActivityViewController(activityItems: [image],
-                                                                  applicationActivities: nil)
-            activityViewController.excludedActivityTypes = [.saveToCameraRoll, .assignToContact, .print]
-            present(activityViewController, animated: true)
-        }
+//        if let indexPath = currentIndexPath,
+//            let image = photoImages?[indexPath.item] {
+//            let activityViewController = UIActivityViewController(activityItems: [image],
+//                                                                  applicationActivities: nil)
+//            activityViewController.excludedActivityTypes = [.saveToCameraRoll, .assignToContact, .print]
+//            present(activityViewController, animated: true)
+//        }
     }
     @IBAction private func saveButtonDidTap(_ sender: UIBarButtonItem) {
-        if let indexPath = currentIndexPath,
-            let image = photoImages?[indexPath.item] {
-            PHPhotoLibrary.requestAuthorization({ [weak self] status in
-                if (status == .authorized) {
-                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(self?.image(_:didFinishSavingWithError:contextInfo:)), nil)
-                }
-            })
-        }
+//        if let indexPath = currentIndexPath,
+//            let image = photoImages?[indexPath.item] {
+//            PHPhotoLibrary.requestAuthorization({ [weak self] status in
+//                if (status == .authorized) {
+//                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(self?.image(_:didFinishSavingWithError:contextInfo:)), nil)
+//                }
+//            })
+//        }
     }
     
     private func configureCollectionView() {
@@ -155,6 +156,34 @@ class PhotoDetailViewController: UIViewController {
             present(ac, animated: true)
         }
     }
+    
+    private func loadData() {
+        guard let pageNumber = pageNumber else { return }
+        photoService.fetchPhotos(page: pageNumber) { (result) in
+            if case let .success(photos) = result {
+                if self.photos != nil {
+                    self.photos?.append(contentsOf: photos)
+                } else {
+                    self.photos = photos
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
+    
+    private func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: url) else {
+                return completion(nil)
+            }
+            
+            DispatchQueue.main.async {
+                completion(UIImage(data: data))
+            }
+        }
+    }
 }
 
 extension PhotoDetailViewController: UIScrollViewDelegate {
@@ -163,9 +192,9 @@ extension PhotoDetailViewController: UIScrollViewDelegate {
     }
 }
 
-extension PhotoDetailViewController: UICollectionViewDataSource {
+extension PhotoDetailViewController: UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoImages?.count ?? 0
+        return photos?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -173,13 +202,36 @@ extension PhotoDetailViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        if let image = photoImages?[indexPath.item] {
-            cell.configure(image: image, contentMode: .scaleAspectFit)
+        if let photo = photos?[indexPath.item],
+            let photoID = photo.id,
+            let imageCache = imageCache {
+            
+            if let image = imageCache.object(forKey: photoID as NSString) {
+                cell.configure(image: image, contentMode: .scaleAspectFit)
+                return cell
+            }
+            
+            if let urlString = photo.imageURL?.regular,
+                let url = URL(string: urlString) {
+                loadImage(from: url) { [weak self] (image) in
+                    guard let image = image else { return }
+                    cell.configure(image: image, contentMode: .scaleAspectFit)
+                    self?.imageCache?.setObject(image, forKey: photoID as NSString)
+                }
+            }
         }
         
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if photos?.endIndex == indexPath.item + 1 {
+                self.pageNumber = self.pageNumber ?? (indexPath.item / 10) + 1
+                loadData()
+            }
+        }
+    }
 }
 
 extension PhotoDetailViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

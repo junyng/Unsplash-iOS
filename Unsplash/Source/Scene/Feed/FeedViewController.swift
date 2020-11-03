@@ -46,16 +46,10 @@ class FeedViewController: UIViewController {
         if let navigationController = segue.destination as? UINavigationController,
             let photoDetailViewController = navigationController.topViewController as? PhotoDetailViewController,
             let currentIndexPath = sender as? IndexPath {
-            let photoImages = photos?.compactMap { (photo: Photo) -> UIImage? in
-                guard let photoID = photo.id,
-                    let image = imageCache.object(forKey: photoID as NSString) else {
-                        return nil
-                }
-                return image
-            }
-            photoDetailViewController.photoImages = photoImages
             photoDetailViewController.currentIndexPath = currentIndexPath
             photoDetailViewController.photos = photos
+            photoDetailViewController.pageNumber = pageNumber
+            photoDetailViewController.imageCache = imageCache
             photoDetailViewController.delegate = self
         }
     }
@@ -145,7 +139,7 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
-            if photos!.count - 1 == indexPath.item {
+            if photos?.endIndex == indexPath.item + 1 {
                 pageNumber += 1
                 loadData()
             }
@@ -173,6 +167,7 @@ extension FeedViewController: FeedLayoutDelegate {
 extension FeedViewController: PhotoDetailViewDelegate {
     func indexPathUpdated(_ indexPath: IndexPath?) {
         if let indexPath = indexPath {
+            collectionView.reloadData()
             collectionView.layoutIfNeeded()
             collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
         }

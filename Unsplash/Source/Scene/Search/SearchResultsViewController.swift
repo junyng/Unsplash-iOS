@@ -63,10 +63,10 @@ class SearchResultsViewController: UIViewController {
                 }
                 return image
             }
-            photoDetailViewController.photoImages = photoImages
             photoDetailViewController.currentIndexPath = currentIndexPath
             photoDetailViewController.photos = photoResult?.results
             photoDetailViewController.delegate = self
+            photoDetailViewController.imageCache = imageCache
         }
     }
     

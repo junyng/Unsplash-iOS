@@ -115,6 +115,7 @@
 				D829024F2542E80A003CFD70 /* Module */,
 				D82902312541C958003CFD70 /* Scene */,
 				D8A71C8A254D4244007F8EA8 /* Service */,
+				D8AF1D0D2551AC7D00936D7A /* Util */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -242,6 +243,13 @@
 				D8AF1D0A2551773400936D7A /* CardContentCell.swift */,
 			);
 			path = PhotoDetail;
+			sourceTree = "<group>";
+		};
+		D8AF1D0D2551AC7D00936D7A /* Util */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
