@@ -41,6 +41,6 @@ class Networking<Resource: ResourceType> {
                 completion(.failure(error))
             }
         }
-        
     }
+    
 }
