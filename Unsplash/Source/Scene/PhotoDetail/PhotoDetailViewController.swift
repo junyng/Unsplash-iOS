@@ -23,7 +23,7 @@ class PhotoDetailViewController: UIViewController {
         }
     }
     private var cardView: CardView!
-    
+    private var dimmerView: UIView!
     private let photoService = PhotoService(networking: Networking<Unsplash>())
     private var isFirstLoaded = true
     
@@ -76,15 +76,7 @@ class PhotoDetailViewController: UIViewController {
             return (propertyName, propertyValue)
         }
         cardView.configure(contents: contents)
-        UIView.animate(withDuration: 0.1,
-                       delay: 0,
-                       options: .curveEaseOut, animations: { [weak self] in
-                        guard let self = self else { return }
-                        self.cardView.frame = CGRect(origin: CGPoint(x: .zero, y: self.view.bounds.height * 0.6),
-                                                      size: CGSize(width: self.view.bounds.width, height: self.view.bounds.height * 0.4))
-        }) { (_) in
-            
-        }
+        showCardView()
     }
     
     @IBAction private func tapGestureRecognized(_ sender: UITapGestureRecognizer) {
@@ -96,23 +88,23 @@ class PhotoDetailViewController: UIViewController {
     }
     
     @IBAction func shareButtonDidTap(_ sender: UIBarButtonItem) {
-//        if let indexPath = currentIndexPath,
-//            let image = photoImages?[indexPath.item] {
-//            let activityViewController = UIActivityViewController(activityItems: [image],
-//                                                                  applicationActivities: nil)
-//            activityViewController.excludedActivityTypes = [.saveToCameraRoll, .assignToContact, .print]
-//            present(activityViewController, animated: true)
-//        }
+        //        if let indexPath = currentIndexPath,
+        //            let image = photoImages?[indexPath.item] {
+        //            let activityViewController = UIActivityViewController(activityItems: [image],
+        //                                                                  applicationActivities: nil)
+        //            activityViewController.excludedActivityTypes = [.saveToCameraRoll, .assignToContact, .print]
+        //            present(activityViewController, animated: true)
+        //        }
     }
     @IBAction private func saveButtonDidTap(_ sender: UIBarButtonItem) {
-//        if let indexPath = currentIndexPath,
-//            let image = photoImages?[indexPath.item] {
-//            PHPhotoLibrary.requestAuthorization({ [weak self] status in
-//                if (status == .authorized) {
-//                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(self?.image(_:didFinishSavingWithError:contextInfo:)), nil)
-//                }
-//            })
-//        }
+        //        if let indexPath = currentIndexPath,
+        //            let image = photoImages?[indexPath.item] {
+        //            PHPhotoLibrary.requestAuthorization({ [weak self] status in
+        //                if (status == .authorized) {
+        //                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(self?.image(_:didFinishSavingWithError:contextInfo:)), nil)
+        //                }
+        //            })
+        //        }
     }
     
     private func configureCollectionView() {
@@ -121,8 +113,16 @@ class PhotoDetailViewController: UIViewController {
     
     private func configureCardView() {
         let viewSize = view.bounds.size
+        dimmerView = UIView(frame: CGRect(origin: .zero,
+                                          size: CGSize(width: viewSize.width, height: viewSize.height)))
+        view.addSubview(dimmerView)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dimmerViewDidTap))
+        dimmerView.addGestureRecognizer(tapGestureRecognizer)
+        dimmerView.isUserInteractionEnabled = true
+        dimmerView.isHidden = true
         cardView = CardView(frame: CGRect(origin: CGPoint(x: .zero, y: view.frame.maxY),
                                           size: CGSize(width: viewSize.width, height: viewSize.height * 0.4)))
+        cardView.delegate = self
         view.addSubview(cardView)
     }
     
@@ -184,6 +184,34 @@ class PhotoDetailViewController: UIViewController {
             }
         }
     }
+    
+    @objc private func dimmerViewDidTap() {
+        hideCardView()
+    }
+    
+    private func showCardView() {
+        UIView.animate(withDuration: 0.1,
+                       delay: 0,
+                       options: .curveEaseOut, animations: { [weak self] in
+                        guard let self = self else { return }
+                        self.cardView.frame = CGRect(origin: CGPoint(x: .zero, y: self.view.bounds.height * 0.6),
+                                                     size: CGSize(width: self.view.bounds.width, height: self.view.bounds.height * 0.4))
+        }) { (_) in
+            self.dimmerView.isHidden = false
+        }
+    }
+    
+    private func hideCardView() {
+        UIView.animate(withDuration: 0.1,
+                       delay: 0,
+                       options: .curveEaseIn, animations: { [weak self] in
+                        guard let self = self else { return }
+                        self.cardView.frame = CGRect(origin: CGPoint(x: .zero, y: self.view.bounds.height),
+                                                     size: CGSize(width: self.view.bounds.width, height: self.view.bounds.height * 0.4))
+        }) { (_) in
+            self.dimmerView.isHidden = true
+        }
+    }
 }
 
 extension PhotoDetailViewController: UIScrollViewDelegate {
@@ -237,6 +265,13 @@ extension PhotoDetailViewController: UICollectionViewDataSource, UICollectionVie
 extension PhotoDetailViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.bounds.size
+    }
+    
+}
+
+extension PhotoDetailViewController: CardViewDelegate {
+    func closeButtonDidTap() {
+        hideCardView()
     }
     
 }

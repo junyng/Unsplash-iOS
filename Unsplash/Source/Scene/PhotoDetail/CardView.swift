@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol CardViewDelegate: class {
+    func closeButtonDidTap()
+}
+
 class CardView: UIView {
     typealias Contents = [(title: String, description: String)]
     
@@ -16,6 +20,8 @@ class CardView: UIView {
     private var collectionView: UICollectionView!
     private let numberOfColumns = 2
     private var contents: Contents?
+    
+    weak var delegate: CardViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,13 +33,20 @@ class CardView: UIView {
         fatalError()
     }
     
-    func setupLayout() {
+    @objc private func closeButtonDidTap() {
+        delegate?.closeButtonDidTap()
+    }
+    
+    private func setupLayout() {
+        layer.cornerRadius = 10.0
+        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         backgroundColor = UIColor.white
         closeButton = UIButton()
         closeButton.setTitle("Close", for: .normal)
         closeButton.setTitleColor(UIColor.black, for: .normal)
         closeButton.titleLabel?.font = closeButton.titleLabel?.font.withSize(16)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.addTarget(self, action: #selector(closeButtonDidTap), for: .touchUpInside)
         addSubview(closeButton)
         NSLayoutConstraint.activate([
             closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 5),
