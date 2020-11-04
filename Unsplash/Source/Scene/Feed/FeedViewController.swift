@@ -25,8 +25,8 @@ class FeedViewController: UIViewController {
         }
     }
     private let photoService = PhotoService(networking: Networking<Unsplash>())
+    private let imageFetcher = ImageFetcher()
     private var photos: [Photo]?
-    private let imageCache = NSCache<NSString, UIImage>()
     private var pageNumber: Int = 0
     
     override func viewDidLoad() {
@@ -49,8 +49,8 @@ class FeedViewController: UIViewController {
             photoDetailViewController.currentIndexPath = currentIndexPath
             photoDetailViewController.photos = photos
             photoDetailViewController.pageNumber = pageNumber
-            photoDetailViewController.imageCache = imageCache
             photoDetailViewController.delegate = self
+            photoDetailViewController.imageFetcher = imageFetcher
         }
     }
     
@@ -117,19 +117,11 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDataSo
         }
         
         if let photo = photos?[indexPath.item],
-            let photoID = photo.id {
-            
-            if let image = imageCache.object(forKey: photoID as NSString) {
-                cell.configure(image: image, title: photo.user?.fullName)
-                return cell
-            }
-            
-            if let urlString = photo.imageURL?.regular,
-                let url = URL(string: urlString) {
-                loadImage(from: url) { [weak self] (image) in
-                    guard let image = image else { return }
+            let urlString = photo.imageURL?.regular,
+            let url = URL(string: urlString) {
+            imageFetcher.fetch(from: url) { (result) in
+                if case let .success(image) = result {
                     cell.configure(image: image, title: photo.user?.fullName)
-                    self?.imageCache.setObject(image, forKey: photoID as NSString)
                 }
             }
         }

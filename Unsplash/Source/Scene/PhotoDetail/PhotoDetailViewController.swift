@@ -32,7 +32,7 @@ class PhotoDetailViewController: UIViewController {
     var currentIndexPath: IndexPath?
     var photos: [Photo]?
     var pageNumber: Int?
-    var imageCache: NSCache<NSString, UIImage>?
+    var imageFetcher: ImageFetcher?
     
     var isTapped = false {
         didSet {
@@ -231,20 +231,11 @@ extension PhotoDetailViewController: UICollectionViewDataSource, UICollectionVie
         }
         
         if let photo = photos?[indexPath.item],
-            let photoID = photo.id,
-            let imageCache = imageCache {
-            
-            if let image = imageCache.object(forKey: photoID as NSString) {
-                cell.configure(image: image, contentMode: .scaleAspectFit)
-                return cell
-            }
-            
-            if let urlString = photo.imageURL?.regular,
-                let url = URL(string: urlString) {
-                loadImage(from: url) { [weak self] (image) in
-                    guard let image = image else { return }
+            let urlString = photo.imageURL?.regular,
+            let url = URL(string: urlString) {
+            imageFetcher?.fetch(from: url) { (result) in
+                if case let .success(image) = result {
                     cell.configure(image: image, contentMode: .scaleAspectFit)
-                    self?.imageCache?.setObject(image, forKey: photoID as NSString)
                 }
             }
         }

@@ -23,6 +23,7 @@ class SearchResultsViewController: UIViewController {
     private var keywords: [String]?
     private var photoResult: PhotosResult?
     private let imageCache = NSCache<NSString, UIImage>()
+    private let imageFetcher = ImageFetcher()
     private lazy var noResultsLabel: UILabel = {
         let label = UILabel(frame: collectionView.frame)
         label.text = "No results"
@@ -56,17 +57,10 @@ class SearchResultsViewController: UIViewController {
         if let navigationController = segue.destination as? UINavigationController,
             let photoDetailViewController = navigationController.topViewController as? PhotoDetailViewController,
             let currentIndexPath = sender as? IndexPath {
-            let photoImages = photoResult?.results?.compactMap { (photo: Photo) -> UIImage? in
-                guard let photoID = photo.id,
-                    let image = imageCache.object(forKey: photoID as NSString) else {
-                        return nil
-                }
-                return image
-            }
             photoDetailViewController.currentIndexPath = currentIndexPath
             photoDetailViewController.photos = photoResult?.results
             photoDetailViewController.delegate = self
-            photoDetailViewController.imageCache = imageCache
+            photoDetailViewController.imageFetcher = imageFetcher
         }
     }
     
@@ -170,19 +164,11 @@ extension SearchResultsViewController: UICollectionViewDataSource {
         
         if let photoResult = photoResult,
             let photo = photoResult.results?[indexPath.item],
-            let photoID = photo.id {
-            
-            if let image = imageCache.object(forKey: photoID as NSString) {
-                cell.configure(image: image, title: photo.user?.fullName)
-                return cell
-            }
-            
-            if let urlString = photo.imageURL?.regular,
-                let url = URL(string: urlString) {
-                loadImage(from: url) { [weak self] (image) in
-                    guard let image = image else { return }
+            let urlString = photo.imageURL?.regular,
+            let url = URL(string: urlString) {
+            imageFetcher.fetch(from: url) { (result) in
+                if case let .success(image) = result {
                     cell.configure(image: image, title: photo.user?.fullName)
-                    self?.imageCache.setObject(image, forKey: photoID as NSString)
                 }
             }
         }
