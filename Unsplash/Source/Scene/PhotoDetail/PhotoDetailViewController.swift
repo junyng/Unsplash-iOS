@@ -27,7 +27,7 @@ class PhotoDetailViewController: UIViewController {
     }
     private var cardView: CardView!
     private var dimmerView: UIView!
-    private let photoService = PhotoService(networking: Networking<Unsplash>())
+    private let photoService: PhotoServiceType = PhotoService(networking: Networking<Unsplash>())
     private var isFirstLoaded = true
     
     weak var delegate: PhotoDetailViewDelegate?

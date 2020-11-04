@@ -18,7 +18,7 @@ class SearchResultsViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var collectionView: UICollectionView!
     
-    private let imageFetcher = ImageFetcher()
+    private let imageFetcher: ImageFetcherType = ImageFetcher()
     private let searchService: SearchServiceType = SearchService(networking: Networking<Unsplash>())
     private let storage: Storage = DefaultStorage(userDefaults: .standard)
     private var keywords: [String]?

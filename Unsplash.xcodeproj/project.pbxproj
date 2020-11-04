@@ -249,9 +249,9 @@
 		D8AF1D0D2551AC7D00936D7A /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				D8E82AAD2552F92A0055E24A /* UIViewController+alert.swift */,
-				D8E82AB325530D3D0055E24A /* UITableView+reusable.swift */,
 				D8E82AB525530E1A0055E24A /* UICollectionView+reusable.swift */,
+				D8E82AB325530D3D0055E24A /* UITableView+reusable.swift */,
+				D8E82AAD2552F92A0055E24A /* UIViewController+alert.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
