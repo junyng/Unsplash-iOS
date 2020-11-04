@@ -60,8 +60,6 @@
                                 <items>
                                     <barButtonItem systemItem="done" id="OLg-Zp-2cf" customClass="PhotoInfoButton" customModule="Unsplash" customModuleProvider="target"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="EtC-Rg-CjT"/>
-                                    <barButtonItem image="suit.heart" catalog="system" id="nw0-Bd-o0L"/>
-                                    <barButtonItem image="plus.circle" catalog="system" id="A9J-32-S25"/>
                                     <barButtonItem image="arrow.down.circle.fill" catalog="system" id="JJS-Q1-bX7">
                                         <connections>
                                             <action selector="saveButtonDidTap:" destination="5lL-38-ZOv" id="Og5-z0-ogB"/>
@@ -239,9 +237,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="plus.circle" catalog="system" width="128" height="121"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
-        <image name="suit.heart" catalog="system" width="128" height="109"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
     </resources>
 </document>
