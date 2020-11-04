@@ -22,7 +22,6 @@ class SearchResultsViewController: UIViewController {
                                               storage: DefaultStorage(userDefaults: .standard))
     private var keywords: [String]?
     private var photoResult: PhotosResult?
-    private let imageCache = NSCache<NSString, UIImage>()
     private let imageFetcher = ImageFetcher()
     private lazy var noResultsLabel: UILabel = {
         let label = UILabel(frame: collectionView.frame)
