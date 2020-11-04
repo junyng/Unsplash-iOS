@@ -9,8 +9,8 @@
 import UIKit
 
 protocol SearchResultsViewDelegate: class {
-    func didSearchKeywordSelected(_ keyword: String)
-    func didSearchEnded()
+    func searchKeywordDidSelected(_ keyword: String)
+    func searchDidEnded()
 }
 
 class SearchResultsViewController: UIViewController {
@@ -69,7 +69,7 @@ class SearchResultsViewController: UIViewController {
         searchService.searchPhotos(query: keyword) { [weak self] (result) in
             if case let .success(photoResult) = result {
                 self?.photoResult = photoResult
-                self?.delegate?.didSearchEnded()
+                self?.delegate?.searchDidEnded()
                 DispatchQueue.main.async {
                     self?.activityIndicatorView.stopAnimating()
                     self?.tableView.backgroundView = nil
@@ -130,7 +130,7 @@ extension SearchResultsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let keyword = keywords?[indexPath.row] else { return }
         search(keyword)
-        delegate?.didSearchKeywordSelected(keyword)
+        delegate?.searchKeywordDidSelected(keyword)
     }
 }
 
