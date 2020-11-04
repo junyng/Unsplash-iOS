@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum ImageFetcherError: Error {
+    case downloadFailed
+}
+
 final class ImageFetcher {
     private let cache = NSCache<NSString, UIImage>()
     private let session: Session = URLSession(configuration: .default)
@@ -32,9 +36,12 @@ final class ImageFetcher {
         session.loadData(url) { [weak self] (result) in
             switch result {
             case .success(let result):
-                let image = UIImage(data: result.data!)
-                self?.cache.setObject(image!, forKey: url.absoluteString as NSString)
-                completion(.success(image!))
+                if let data = result.data,
+                    let image = UIImage(data: data) {
+                    self?.cache.setObject(image, forKey: url.absoluteString as NSString)
+                    completion(.success(image))
+                }
+                completion(.failure(ImageFetcherError.downloadFailed))
             case .failure(let error):
                 completion(.failure(error))
             }
