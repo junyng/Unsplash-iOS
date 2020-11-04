@@ -15,13 +15,11 @@ class FeedViewController: UIViewController {
     private var searchResultsViewController: SearchResultsViewController?
     private var viewHiddenObserver: NSKeyValueObservation?
     private var searchController: UISearchController! {
+        willSet {
+            removeViewHiddenObserver()
+        }
         didSet {
-            viewHiddenObserver = searchController.searchResultsController?.view.observe(\.isHidden, changeHandler: { [weak self] (view, _) in
-                guard let self = self else { return }
-                if view.isHidden && self.searchController.searchBar.isFirstResponder {
-                    view.isHidden = false
-                }
-            })
+            addViewHiddenObserver()
         }
     }
     private let photoService = PhotoService(networking: Networking<Unsplash>())
@@ -69,11 +67,17 @@ class FeedViewController: UIViewController {
         }
     }
     
-    private func configureCollectionView() {
-        collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
-        if let layout = collectionView.collectionViewLayout as? FeedLayout {
-            layout.delegate = self
-        }
+    private func removeViewHiddenObserver() {
+        viewHiddenObserver = nil
+    }
+    
+    private func addViewHiddenObserver() {
+        viewHiddenObserver = searchController.searchResultsController?.view.observe(\.isHidden, changeHandler: { [weak self] (view, _) in
+            guard let self = self else { return }
+            if view.isHidden && self.searchController.searchBar.isFirstResponder {
+                view.isHidden = false
+            }
+        })
     }
     
     private func configureSearchController() {
@@ -91,6 +95,13 @@ class FeedViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search photos"
         searchController.searchBar.delegate = self
+    }
+    
+    private func configureCollectionView() {
+        collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+        if let layout = collectionView.collectionViewLayout as? FeedLayout {
+            layout.delegate = self
+        }
     }
 }
 
