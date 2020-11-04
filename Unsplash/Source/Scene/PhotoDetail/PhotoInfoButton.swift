@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhotoInfoButton: UIBarButtonItem {
+final class PhotoInfoButton: UIBarButtonItem {
     var buttonDidTap: (() -> ())?
     
     private lazy var button: UIButton = {

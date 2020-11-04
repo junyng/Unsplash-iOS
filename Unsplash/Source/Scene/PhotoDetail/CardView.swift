@@ -12,7 +12,7 @@ protocol CardViewDelegate: class {
     func closeButtonDidTap()
 }
 
-class CardView: UIView {
+final class CardView: UIView {
     typealias Contents = [(title: String, description: String)]
     
     private var closeButton: UIButton!

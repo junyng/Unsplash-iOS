@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhotoCell: UICollectionViewCell {
+final class PhotoCell: UICollectionViewCell {
     private var imageView: UIImageView!
     private var titleLabel: UILabel!
     

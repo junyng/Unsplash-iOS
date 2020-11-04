@@ -12,7 +12,7 @@ protocol WaterfallLayoutDelegate: class {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat
 }
 
-class WaterfallLayout: UICollectionViewLayout {
+final class WaterfallLayout: UICollectionViewLayout {
     
     weak var delegate: WaterfallLayoutDelegate?
     

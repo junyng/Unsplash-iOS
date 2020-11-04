@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CardContentCell: UICollectionViewCell {
+final class CardContentCell: UICollectionViewCell {
     typealias Content = (title: String, description: String)
     
     static let identifier = "CardContentCell"

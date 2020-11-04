@@ -13,7 +13,7 @@ protocol PhotoDetailViewDelegate: class {
     func didPhotoLoaded(at indexPath: IndexPath?)
 }
 
-class PhotoDetailViewController: UIViewController {
+final class PhotoDetailViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var toolbar: UIToolbar!
