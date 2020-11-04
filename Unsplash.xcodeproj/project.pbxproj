@@ -32,6 +32,7 @@
 		D8AF1D0925516C6F00936D7A /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AF1D0825516C6F00936D7A /* CardView.swift */; };
 		D8AF1D0B2551773400936D7A /* CardContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AF1D0A2551773400936D7A /* CardContentCell.swift */; };
 		D8E82AA92552C9FF0055E24A /* ImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E82AA82552C9FF0055E24A /* ImageFetcher.swift */; };
+		D8E82AAE2552F92A0055E24A /* UIViewController+alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E82AAD2552F92A0055E24A /* UIViewController+alert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		D8AF1D0825516C6F00936D7A /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		D8AF1D0A2551773400936D7A /* CardContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContentCell.swift; sourceTree = "<group>"; };
 		D8E82AA82552C9FF0055E24A /* ImageFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcher.swift; sourceTree = "<group>"; };
+		D8E82AAD2552F92A0055E24A /* UIViewController+alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+alert.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +242,7 @@
 		D8AF1D0D2551AC7D00936D7A /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				D8E82AAD2552F92A0055E24A /* UIViewController+alert.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D82902332541C96E003CFD70 /* FeedViewController.swift in Sources */,
+				D8E82AAE2552F92A0055E24A /* UIViewController+alert.swift in Sources */,
 				D8A71C97254DB502007F8EA8 /* Exif.swift in Sources */,
 				D82902452542B855003CFD70 /* FeedLayout.swift in Sources */,
 				D8A71C8D254D4262007F8EA8 /* PhotoService.swift in Sources */,

@@ -77,23 +77,36 @@ class PhotoDetailViewController: UIViewController {
     }
     
     @IBAction func shareButtonDidTap(_ sender: UIBarButtonItem) {
-        //        if let indexPath = currentIndexPath,
-        //            let image = photoImages?[indexPath.item] {
-        //            let activityViewController = UIActivityViewController(activityItems: [image],
-        //                                                                  applicationActivities: nil)
-        //            activityViewController.excludedActivityTypes = [.saveToCameraRoll, .assignToContact, .print]
-        //            present(activityViewController, animated: true)
-        //        }
+        if let indexPath = currentIndexPath,
+            let photo = photos?[indexPath.item],
+            let urlString = photo.imageURL?.regular,
+            let url = URL(string: urlString) {
+            imageFetcher?.fetch(from: url, completion: { [weak self] (result) in
+                if case let .success(image) = result {
+                    let activityViewController = UIActivityViewController(activityItems: [image],
+                                                                          applicationActivities: nil)
+                    activityViewController.excludedActivityTypes = [.saveToCameraRoll, .assignToContact, .print]
+                    self?.present(activityViewController, animated: true)
+                }
+            })
+        }
     }
+    
     @IBAction private func saveButtonDidTap(_ sender: UIBarButtonItem) {
-        //        if let indexPath = currentIndexPath,
-        //            let image = photoImages?[indexPath.item] {
-        //            PHPhotoLibrary.requestAuthorization({ [weak self] status in
-        //                if (status == .authorized) {
-        //                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(self?.image(_:didFinishSavingWithError:contextInfo:)), nil)
-        //                }
-        //            })
-        //        }
+        if let indexPath = currentIndexPath,
+            let photo = photos?[indexPath.item],
+            let urlString = photo.imageURL?.regular,
+            let url = URL(string: urlString) {
+            imageFetcher?.fetch(from: url, completion: { (result) in
+                if case let .success(image) = result {
+                    PHPhotoLibrary.requestAuthorization({ [weak self] status in
+                        if (status == .authorized) {
+                            UIImageWriteToSavedPhotosAlbum(image, self, #selector(self?.image(_:didFinishSavingWithError:contextInfo:)), nil)
+                        }
+                    })
+                }
+            })
+        }
     }
     
     private func configureCollectionView() {
@@ -136,25 +149,17 @@ class PhotoDetailViewController: UIViewController {
     
     @objc private func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
         if let error = error {
-            let ac = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
-            present(ac, animated: true)
+            showAlert(message: error.description)
         } else {
-            let ac = UIAlertController(title: "Saved", message: "image saved to photos", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
-            present(ac, animated: true)
-        }
+            showAlert(message: "Image saved to Photos")
+        }   
     }
     
     private func loadData() {
         guard let pageNumber = pageNumber else { return }
         photoService.fetchPhotos(page: pageNumber) { (result) in
             if case let .success(photos) = result {
-                if self.photos != nil {
-                    self.photos?.append(contentsOf: photos)
-                } else {
-                    self.photos = photos
-                }
+                self.photos?.append(contentsOf: photos)
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
