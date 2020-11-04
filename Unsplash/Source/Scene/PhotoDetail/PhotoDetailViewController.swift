@@ -173,18 +173,6 @@ class PhotoDetailViewController: UIViewController {
         }
     }
     
-    private func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
-        DispatchQueue.global().async {
-            guard let data = try? Data(contentsOf: url) else {
-                return completion(nil)
-            }
-            
-            DispatchQueue.main.async {
-                completion(UIImage(data: data))
-            }
-        }
-    }
-    
     @objc private func dimmerViewDidTap() {
         hideCardView()
     }

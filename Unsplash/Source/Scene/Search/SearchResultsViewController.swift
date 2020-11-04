@@ -95,18 +95,6 @@ class SearchResultsViewController: UIViewController {
         tableView.reloadData()
     }
     
-    private func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
-        DispatchQueue.global().async {
-            guard let data = try? Data(contentsOf: url) else {
-                return completion(nil)
-            }
-            
-            DispatchQueue.main.async {
-                completion(UIImage(data: data))
-            }
-        }
-    }
-    
     private func configureTableView() {
         tableView.tableFooterView = UIView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "SearchKeywordTableViewCell")
