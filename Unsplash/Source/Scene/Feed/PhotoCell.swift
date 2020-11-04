@@ -9,9 +9,6 @@
 import UIKit
 
 class PhotoCell: UICollectionViewCell {
-    
-    static let identifier = "PhotoCell"
-    
     private var imageView: UIImageView!
     private var titleLabel: UILabel!
     
