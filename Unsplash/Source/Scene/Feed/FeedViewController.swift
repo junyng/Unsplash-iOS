@@ -93,7 +93,7 @@ class FeedViewController: UIViewController {
     
     private func configureCollectionView() {
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
-        if let layout = collectionView.collectionViewLayout as? FeedLayout {
+        if let layout = collectionView.collectionViewLayout as? WaterfallLayout {
             layout.delegate = self
         }
     }
@@ -138,7 +138,7 @@ extension FeedViewController: UICollectionViewDelegate {
     }
 }
 
-extension FeedViewController: FeedLayoutDelegate {
+extension FeedViewController: WaterfallLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         let screenWidth = UIScreen.main.bounds.size.width
         guard let photo = photos?[indexPath.item],

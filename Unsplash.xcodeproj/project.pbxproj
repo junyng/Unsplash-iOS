@@ -15,7 +15,7 @@
 		D81620C425505A0E0012DD65 /* ImageURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81620C325505A0E0012DD65 /* ImageURL.swift */; };
 		D82902332541C96E003CFD70 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82902322541C96E003CFD70 /* FeedViewController.swift */; };
 		D8290243254295BC003CFD70 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8290242254295BC003CFD70 /* PhotoCell.swift */; };
-		D82902452542B855003CFD70 /* FeedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82902442542B855003CFD70 /* FeedLayout.swift */; };
+		D82902452542B855003CFD70 /* WaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82902442542B855003CFD70 /* WaterfallLayout.swift */; };
 		D8592AF5254128C40044C1F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8592AF4254128C40044C1F8 /* AppDelegate.swift */; };
 		D8592AFC254128C40044C1F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8592AFA254128C40044C1F8 /* Main.storyboard */; };
 		D8592AFE254128C70044C1F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8592AFD254128C70044C1F8 /* Assets.xcassets */; };
@@ -44,7 +44,7 @@
 		D81620C325505A0E0012DD65 /* ImageURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageURL.swift; sourceTree = "<group>"; };
 		D82902322541C96E003CFD70 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		D8290242254295BC003CFD70 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
-		D82902442542B855003CFD70 /* FeedLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLayout.swift; sourceTree = "<group>"; };
+		D82902442542B855003CFD70 /* WaterfallLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterfallLayout.swift; sourceTree = "<group>"; };
 		D8592AF1254128C40044C1F8 /* Unsplash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unsplash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8592AF4254128C40044C1F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8592AFB254128C40044C1F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				D82902322541C96E003CFD70 /* FeedViewController.swift */,
-				D82902442542B855003CFD70 /* FeedLayout.swift */,
+				D82902442542B855003CFD70 /* WaterfallLayout.swift */,
 				D8290242254295BC003CFD70 /* PhotoCell.swift */,
 			);
 			path = Feed;
@@ -329,7 +329,7 @@
 				D82902332541C96E003CFD70 /* FeedViewController.swift in Sources */,
 				D8E82AAE2552F92A0055E24A /* UIViewController+alert.swift in Sources */,
 				D8A71C97254DB502007F8EA8 /* Exif.swift in Sources */,
-				D82902452542B855003CFD70 /* FeedLayout.swift in Sources */,
+				D82902452542B855003CFD70 /* WaterfallLayout.swift in Sources */,
 				D8A71C8D254D4262007F8EA8 /* PhotoService.swift in Sources */,
 				D869688D254B7B1800C5CA58 /* Session.swift in Sources */,
 				D8AF1D0B2551773400936D7A /* CardContentCell.swift in Sources */,

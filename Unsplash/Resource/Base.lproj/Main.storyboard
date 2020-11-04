@@ -19,7 +19,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dKK-sX-ZSn">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewLayout key="collectionViewLayout" id="nHf-zE-3gy" customClass="FeedLayout" customModule="Unsplash" customModuleProvider="target"/>
+                                <collectionViewLayout key="collectionViewLayout" id="nHf-zE-3gy" customClass="WaterfallLayout" customModule="Unsplash" customModuleProvider="target"/>
                                 <cells/>
                                 <connections>
                                     <outlet property="dataSource" destination="d2z-hl-T81" id="JEQ-Bc-cvf"/>
@@ -185,7 +185,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Wdt-Hl-Qub">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewLayout key="collectionViewLayout" id="8q0-Cq-kcn" customClass="FeedLayout" customModule="Unsplash" customModuleProvider="target"/>
+                                <collectionViewLayout key="collectionViewLayout" id="8q0-Cq-kcn" customClass="WaterfallLayout" customModule="Unsplash" customModuleProvider="target"/>
                                 <cells/>
                                 <connections>
                                     <outlet property="dataSource" destination="B8C-eO-xiX" id="UpL-LJ-f4z"/>

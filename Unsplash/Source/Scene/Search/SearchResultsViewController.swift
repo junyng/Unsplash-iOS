@@ -103,7 +103,7 @@ class SearchResultsViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.isHidden = true
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
-        if let layout = collectionView.collectionViewLayout as? FeedLayout {
+        if let layout = collectionView.collectionViewLayout as? WaterfallLayout {
             layout.delegate = self
         }
     }
@@ -170,7 +170,7 @@ extension SearchResultsViewController: UICollectionViewDelegate {
     }
 }
 
-extension SearchResultsViewController: FeedLayoutDelegate {
+extension SearchResultsViewController: WaterfallLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         guard let photoResults = photoResult,
             let photo = photoResults.results?[indexPath.item],

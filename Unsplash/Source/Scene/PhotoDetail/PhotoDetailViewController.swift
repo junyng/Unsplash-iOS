@@ -152,7 +152,7 @@ class PhotoDetailViewController: UIViewController {
             showAlert(message: error.description)
         } else {
             showAlert(message: "Image saved to Photos")
-        }   
+        }
     }
     
     private func loadData() {
