@@ -12,7 +12,11 @@ enum ImageFetcherError: Error {
     case downloadFailed
 }
 
-final class ImageFetcher {
+protocol ImageFetcherType {
+    func fetch(from url: URL, completion: @escaping (Result<UIImage, Error>) -> Void)
+}
+
+final class ImageFetcher: ImageFetcherType {
     private let cache = NSCache<NSString, UIImage>()
     private let session: Session = URLSession(configuration: .default)
     

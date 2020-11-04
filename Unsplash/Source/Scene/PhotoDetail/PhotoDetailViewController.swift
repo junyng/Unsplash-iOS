@@ -32,7 +32,7 @@ class PhotoDetailViewController: UIViewController {
     var currentIndexPath: IndexPath?
     var photos: [Photo]?
     var pageNumber: Int?
-    var imageFetcher: ImageFetcher?
+    var imageFetcher: ImageFetcherType?
     
     var isTapped = false {
         didSet {

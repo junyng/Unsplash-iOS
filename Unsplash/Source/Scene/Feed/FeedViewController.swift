@@ -25,7 +25,7 @@ class FeedViewController: UIViewController {
         }
     }
     private let photoService = PhotoService(networking: Networking<Unsplash>())
-    private let imageFetcher = ImageFetcher()
+    private let imageFetcher: ImageFetcherType = ImageFetcher()
     private var photos: [Photo]?
     private var pageNumber: Int = 0
     
