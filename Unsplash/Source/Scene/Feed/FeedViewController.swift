@@ -39,7 +39,7 @@ class FeedViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        loadData()
+        loadPhotos()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -54,7 +54,7 @@ class FeedViewController: UIViewController {
         }
     }
     
-    private func loadData() {
+    private func loadPhotos() {
         photoService.fetchPhotos(page: pageNumber) { (result) in
             if case let .success(photos) = result {
                 if self.photos != nil {
@@ -121,7 +121,7 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDataSo
         for indexPath in indexPaths {
             if photos?.endIndex == indexPath.item + 1 {
                 pageNumber += 1
-                loadData()
+                loadPhotos()
             }
         }
     }
