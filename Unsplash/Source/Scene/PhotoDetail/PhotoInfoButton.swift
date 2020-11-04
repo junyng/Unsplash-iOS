@@ -24,15 +24,6 @@ class PhotoInfoButton: UIBarButtonItem {
         return activityIndicator
     }()
     
-    override init() {
-        super.init()
-        
-        setupAction()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     func loading(_ isLoading: Bool) {
         isEnabled = !isLoading
@@ -46,7 +37,7 @@ class PhotoInfoButton: UIBarButtonItem {
         }
     }
     
-    private func setupAction() {
+    func setupAction() {
         button.addTarget(self, action: #selector(handle(sender:)), for: .touchUpInside)
     }
     

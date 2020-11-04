@@ -14,7 +14,6 @@ protocol Storage {
 }
 
 final class DefaultStorage: Storage {
-    
     private let userDefaults: UserDefaults
     
     init(userDefaults: UserDefaults) {

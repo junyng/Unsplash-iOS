@@ -19,6 +19,7 @@ class PhotoDetailViewController: UIViewController {
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var photoInfoButton: PhotoInfoButton! {
         didSet {
+            photoInfoButton.setupAction()
             photoInfoButton.buttonDidTap = { [weak self] in
                 self?.showCardView()
             }
@@ -65,20 +66,6 @@ class PhotoDetailViewController: UIViewController {
             collectionView.scrollToItem(at: currentIndexPath, at: .centeredHorizontally, animated: false)
             isFirstLoaded = false
         }
-    }
-    
-    @objc func action(sender: UIButton) {
-        guard let indexPath = currentIndexPath,
-            let photo = photos?[indexPath.item],
-            let exif = photo.exif else { return }
-        let mirrored = Mirror(reflecting: exif)
-        let contents = mirrored.children.enumerated().compactMap { item -> (String, String)? in
-            guard let propertyName = item.element.label else { return nil }
-            guard let propertyValue = item.element.value as? String else { return (propertyName, "-") }
-            return (propertyName, propertyValue)
-        }
-        cardView.configure(contents: contents)
-        showCardView()
     }
     
     @IBAction private func tapGestureRecognized(_ sender: UITapGestureRecognizer) {
@@ -180,6 +167,17 @@ class PhotoDetailViewController: UIViewController {
     }
     
     private func showCardView() {
+        guard let indexPath = currentIndexPath,
+            let photo = photos?[indexPath.item],
+            let exif = photo.exif else { return }
+        let mirrored = Mirror(reflecting: exif)
+        let contents = mirrored.children.enumerated().compactMap { item -> (String, String)? in
+            guard let propertyName = item.element.label else { return nil }
+            guard let propertyValue = item.element.value as? String else { return (propertyName, "-") }
+            return (propertyName, propertyValue)
+        }
+        cardView.configure(contents: contents)
+        
         UIView.animate(withDuration: 0.1,
                        delay: 0,
                        options: .curveEaseOut, animations: { [weak self] in
