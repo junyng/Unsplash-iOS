@@ -9,8 +9,9 @@
 import UIKit
 
 class PhotoInfoButton: UIBarButtonItem {
+    var buttonDidTap: (() -> ())?
     
-    lazy var button: UIButton = {
+    private lazy var button: UIButton = {
         let button = UIButton(type: .infoLight)
         customView = button
         return button
@@ -23,6 +24,16 @@ class PhotoInfoButton: UIBarButtonItem {
         return activityIndicator
     }()
     
+    override init() {
+        super.init()
+        
+        setupAction()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func loading(_ isLoading: Bool) {
         isEnabled = !isLoading
         
@@ -33,5 +44,13 @@ class PhotoInfoButton: UIBarButtonItem {
             activityIndicator.stopAnimating()
             customView = button
         }
+    }
+    
+    private func setupAction() {
+        button.addTarget(self, action: #selector(handle(sender:)), for: .touchUpInside)
+    }
+    
+    @objc private func handle(sender: UIButton) {
+        buttonDidTap?()
     }
 }
