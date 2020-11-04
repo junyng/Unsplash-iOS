@@ -24,7 +24,7 @@ class FeedViewController: UIViewController {
     }
     private let photoService = PhotoService(networking: Networking<Unsplash>())
     private let imageFetcher: ImageFetcherType = ImageFetcher()
-    private var photos: [Photo]?
+    private var photos: [Photo]? = []
     private var pageNumber: Int = 0
     
     override func viewDidLoad() {
@@ -55,14 +55,8 @@ class FeedViewController: UIViewController {
     private func loadPhotos() {
         photoService.fetchPhotos(page: pageNumber) { (result) in
             if case let .success(photos) = result {
-                if self.photos != nil {
-                    self.photos?.append(contentsOf: photos)
-                } else {
-                    self.photos = photos
-                }
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
+                self.photos?.append(contentsOf: photos)
+                self.collectionView.reloadData()
             }
         }
     }
