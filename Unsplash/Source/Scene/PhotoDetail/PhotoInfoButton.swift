@@ -37,8 +37,8 @@ class PhotoInfoButton: UIBarButtonItem {
         }
     }
     
-    func setupAction() {
-        button.addTarget(self, action: #selector(handle(sender:)), for: .touchUpInside)
+    func setupAction(_ event: UIControl.Event) {
+        button.addTarget(self, action: #selector(handle(sender:)), for: event)
     }
     
     @objc private func handle(sender: UIButton) {

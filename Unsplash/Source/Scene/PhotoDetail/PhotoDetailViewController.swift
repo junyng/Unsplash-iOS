@@ -19,7 +19,7 @@ class PhotoDetailViewController: UIViewController {
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var photoInfoButton: PhotoInfoButton! {
         didSet {
-            photoInfoButton.setupAction()
+            photoInfoButton.setupAction(.touchUpInside)
             photoInfoButton.buttonDidTap = { [weak self] in
                 self?.showCardView()
             }
