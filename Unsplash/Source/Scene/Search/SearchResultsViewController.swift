@@ -18,11 +18,11 @@ class SearchResultsViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    private let imageFetcher = ImageFetcher()
     private let searchService: SearchServiceType = SearchService(networking: Networking<Unsplash>())
     private let storage: Storage = DefaultStorage(userDefaults: .standard)
     private var keywords: [String]?
     private var photoResult: PhotosResult?
-    private let imageFetcher = ImageFetcher()
     private lazy var noResultsLabel: UILabel = {
         let label = UILabel(frame: collectionView.frame)
         label.text = "No results"
@@ -101,13 +101,13 @@ class SearchResultsViewController: UIViewController {
     
     private func configureTableView() {
         tableView.tableFooterView = UIView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "SearchKeywordTableViewCell")
+        tableView.register(cell: UITableViewCell.self)
     }
     
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.isHidden = true
-        collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+        collectionView.register(cell: PhotoCell.self)
         if let layout = collectionView.collectionViewLayout as? WaterfallLayout {
             layout.delegate = self
         }
@@ -120,7 +120,7 @@ extension SearchResultsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "SearchKeywordTableViewCell")
+        let cell = tableView.dequeueReusableCell(for: UITableViewCell.self, for: indexPath)
         
         if let keyword = keywords?[indexPath.row] {
             cell.textLabel?.text = keyword
@@ -150,9 +150,7 @@ extension SearchResultsViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else {
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueReusableCell(for: PhotoCell.self, for: indexPath)
         
         if let photoResult = photoResult,
             let photo = photoResult.results?[indexPath.item],
@@ -188,7 +186,7 @@ extension SearchResultsViewController: WaterfallLayoutDelegate {
 }
 
 extension SearchResultsViewController: PhotoDetailViewDelegate {
-    func indexPathUpdated(_ indexPath: IndexPath?) {
+    func didPhotoLoaded(at indexPath: IndexPath?) {
         if let indexPath = indexPath {
             collectionView.layoutIfNeeded()
             collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)

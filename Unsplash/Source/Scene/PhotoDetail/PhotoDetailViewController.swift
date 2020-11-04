@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 protocol PhotoDetailViewDelegate: class {
-    func indexPathUpdated(_ indexPath: IndexPath?)
+    func didPhotoLoaded(at indexPath: IndexPath?)
 }
 
 class PhotoDetailViewController: UIViewController {
@@ -140,7 +140,7 @@ class PhotoDetailViewController: UIViewController {
         photoService.fetchPhoto(id: id) { (result) in
             if case let .success(photo) = result {
                 self.currentIndexPath = indexPath
-                self.delegate?.indexPathUpdated(self.currentIndexPath)
+                self.delegate?.didPhotoLoaded(at: self.currentIndexPath)
                 self.photoInfoButton.loading(false)
                 self.photos?[indexPath.item] = photo
             }
@@ -155,7 +155,7 @@ class PhotoDetailViewController: UIViewController {
         }
     }
     
-    private func loadData() {
+    private func loadPhotos() {
         guard let pageNumber = pageNumber else { return }
         photoService.fetchPhotos(page: pageNumber) { (result) in
             if case let .success(photos) = result {
@@ -240,7 +240,7 @@ extension PhotoDetailViewController: UICollectionViewDataSource, UICollectionVie
         for indexPath in indexPaths {
             if photos?.endIndex == indexPath.item + 1 {
                 self.pageNumber = self.pageNumber ?? (indexPath.item / 10) + 1
-                loadData()
+                loadPhotos()
             }
         }
     }

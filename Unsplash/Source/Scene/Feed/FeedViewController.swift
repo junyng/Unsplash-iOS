@@ -92,7 +92,7 @@ class FeedViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+        collectionView.register(cell: PhotoCell.self)
         if let layout = collectionView.collectionViewLayout as? WaterfallLayout {
             layout.delegate = self
         }
@@ -105,9 +105,7 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else {
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueReusableCell(for: PhotoCell.self, for: indexPath)
         
         if let photo = photos?[indexPath.item],
             let urlString = photo.imageURL?.regular,
@@ -150,7 +148,7 @@ extension FeedViewController: WaterfallLayoutDelegate {
 }
 
 extension FeedViewController: PhotoDetailViewDelegate {
-    func indexPathUpdated(_ indexPath: IndexPath?) {
+    func didPhotoLoaded(at indexPath: IndexPath?) {
         if let indexPath = indexPath {
             collectionView.reloadData()
             collectionView.layoutIfNeeded()
