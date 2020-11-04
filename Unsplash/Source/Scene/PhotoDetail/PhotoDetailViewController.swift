@@ -109,25 +109,6 @@ class PhotoDetailViewController: UIViewController {
         }
     }
     
-    private func configureCollectionView() {
-        collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
-    }
-    
-    private func configureCardView() {
-        let viewSize = view.bounds.size
-        dimmerView = UIView(frame: CGRect(origin: .zero,
-                                          size: CGSize(width: viewSize.width, height: viewSize.height)))
-        view.addSubview(dimmerView)
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dimmerViewDidTap))
-        dimmerView.addGestureRecognizer(tapGestureRecognizer)
-        dimmerView.isUserInteractionEnabled = true
-        dimmerView.isHidden = true
-        cardView = CardView(frame: CGRect(origin: CGPoint(x: .zero, y: view.frame.maxY),
-                                          size: CGSize(width: viewSize.width, height: viewSize.height * 0.4)))
-        cardView.delegate = self
-        view.addSubview(cardView)
-    }
-    
     private func loadPhotoInfo() {
         guard let indexPath = collectionView.indexPathsForVisibleItems.first,
             let id = photos?[indexPath.item].id,
@@ -147,14 +128,6 @@ class PhotoDetailViewController: UIViewController {
         }
     }
     
-    @objc private func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
-        if let error = error {
-            showAlert(message: error.description)
-        } else {
-            showAlert(message: "Image saved to Photos")
-        }
-    }
-    
     private func loadPhotos() {
         guard let pageNumber = pageNumber else { return }
         photoService.fetchPhotos(page: pageNumber) { (result) in
@@ -164,6 +137,14 @@ class PhotoDetailViewController: UIViewController {
                     self.collectionView.reloadData()
                 }
             }
+        }
+    }
+    
+    @objc private func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            showAlert(message: error.description)
+        } else {
+            showAlert(message: "Image saved to Photos")
         }
     }
     
@@ -205,6 +186,25 @@ class PhotoDetailViewController: UIViewController {
             self.dimmerView.isHidden = true
         }
     }
+    
+    private func configureCollectionView() {
+        collectionView.register(cell: PhotoCell.self)
+    }
+    
+    private func configureCardView() {
+        let viewSize = view.bounds.size
+        dimmerView = UIView(frame: CGRect(origin: .zero,
+                                          size: CGSize(width: viewSize.width, height: viewSize.height)))
+        view.addSubview(dimmerView)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dimmerViewDidTap))
+        dimmerView.addGestureRecognizer(tapGestureRecognizer)
+        dimmerView.isUserInteractionEnabled = true
+        dimmerView.isHidden = true
+        cardView = CardView(frame: CGRect(origin: CGPoint(x: .zero, y: view.frame.maxY),
+                                          size: CGSize(width: viewSize.width, height: viewSize.height * 0.4)))
+        cardView.delegate = self
+        view.addSubview(cardView)
+    }
 }
 
 extension PhotoDetailViewController: UIScrollViewDelegate {
@@ -219,9 +219,7 @@ extension PhotoDetailViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else {
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueReusableCell(for: PhotoCell.self, for: indexPath)
         
         if let photo = photos?[indexPath.item],
             let urlString = photo.imageURL?.regular,

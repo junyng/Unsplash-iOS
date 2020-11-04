@@ -83,6 +83,7 @@
                                     <outlet property="dataSource" destination="5lL-38-ZOv" id="79P-z0-bXd"/>
                                     <outlet property="delegate" destination="5lL-38-ZOv" id="nhd-yb-N76"/>
                                     <outlet property="prefetchDataSource" destination="5lL-38-ZOv" id="hmg-f7-gjG"/>
+                                    <outletCollection property="gestureRecognizers" destination="1Lx-ko-7Oo" appends="YES" id="frE-3l-myv"/>
                                 </connections>
                             </collectionView>
                         </subviews>
@@ -98,9 +99,6 @@
                             <constraint firstAttribute="bottom" secondItem="gjZ-9Q-RTQ" secondAttribute="bottom" id="p5i-5t-qnZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="thD-62-zuK"/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="1Lx-ko-7Oo" appends="YES" id="D7U-NZ-xte"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="Bvm-5b-IiX">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="xmark" catalog="system" id="JfU-GH-Q31">
