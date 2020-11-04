@@ -22,7 +22,7 @@ class FeedViewController: UIViewController {
             addViewHiddenObserver()
         }
     }
-    private let photoService = PhotoService(networking: Networking<Unsplash>())
+    private let photoService: PhotoServiceType = PhotoService(networking: Networking<Unsplash>())
     private let imageFetcher: ImageFetcherType = ImageFetcher()
     private var photos: [Photo]? = []
     private var pageNumber: Int = 0

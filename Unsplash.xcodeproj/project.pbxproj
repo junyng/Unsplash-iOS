@@ -33,6 +33,7 @@
 		D8AF1D0B2551773400936D7A /* CardContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AF1D0A2551773400936D7A /* CardContentCell.swift */; };
 		D8E82AA92552C9FF0055E24A /* ImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E82AA82552C9FF0055E24A /* ImageFetcher.swift */; };
 		D8E82AAE2552F92A0055E24A /* UIViewController+alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E82AAD2552F92A0055E24A /* UIViewController+alert.swift */; };
+		D8E82AB0255306B20055E24A /* Unsplash.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E82AAF255306B20055E24A /* Unsplash.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		D8AF1D0A2551773400936D7A /* CardContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContentCell.swift; sourceTree = "<group>"; };
 		D8E82AA82552C9FF0055E24A /* ImageFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcher.swift; sourceTree = "<group>"; };
 		D8E82AAD2552F92A0055E24A /* UIViewController+alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+alert.swift"; sourceTree = "<group>"; };
+		D8E82AAF255306B20055E24A /* Unsplash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unsplash.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				D8592AF4254128C40044C1F8 /* AppDelegate.swift */,
+				D8E82AAF255306B20055E24A /* Unsplash.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				D8766F08254E4E9A00B6133B /* PhotoInfoButton.swift in Sources */,
 				D8A71C95254D7307007F8EA8 /* PhotoDetailViewController.swift in Sources */,
 				D869688B254B186800C5CA58 /* Resource.swift in Sources */,
+				D8E82AB0255306B20055E24A /* Unsplash.swift in Sources */,
 				D8A71C88254D3FF1007F8EA8 /* URL+appendingQueryParameters.swift in Sources */,
 				D81620BA254EC4B50012DD65 /* PhotoResult.swift in Sources */,
 				D8290243254295BC003CFD70 /* PhotoCell.swift in Sources */,

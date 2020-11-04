@@ -18,8 +18,8 @@ class SearchResultsViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var collectionView: UICollectionView!
     
-    private let searchService = SearchService(networking: Networking<Unsplash>(),
-                                              storage: DefaultStorage(userDefaults: .standard))
+    private let searchService: SearchServiceType = SearchService(networking: Networking<Unsplash>())
+    private let storage: Storage = DefaultStorage(userDefaults: .standard)
     private var keywords: [String]?
     private var photoResult: PhotosResult?
     private let imageFetcher = ImageFetcher()
@@ -66,18 +66,23 @@ class SearchResultsViewController: UIViewController {
     func search(_ keyword: String) {
         collectionView.backgroundView = activityIndicatorView
         activityIndicatorView.startAnimating()
+        if let queries = storage.read(for: "SearchKeywords", type: [String].self) {
+            let filteredQueries = queries.filter { $0 != keyword }
+            storage.write(value: [keyword] + filteredQueries, for: "SearchKeywords", type: [String].self)
+        } else {
+            storage.write(value: [keyword], for: "SearchKeywords", type: [String].self)
+        }
         searchService.searchPhotos(query: keyword) { [weak self] (result) in
             if case let .success(photoResult) = result {
                 self?.photoResult = photoResult
                 self?.delegate?.searchDidEnded()
-                DispatchQueue.main.async {
-                    self?.activityIndicatorView.stopAnimating()
-                    self?.tableView.backgroundView = nil
-                    self?.tableView.isHidden = true
-                    self?.collectionView.isHidden = false
-                    self?.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredVertically, animated: false)
-                    self?.collectionView.reloadData()
-                }
+                self?.activityIndicatorView.stopAnimating()
+                self?.tableView.backgroundView = nil
+                self?.tableView.isHidden = true
+                self?.collectionView.isHidden = false
+                self?.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredVertically, animated: false)
+                self?.collectionView.reloadData()
+                
             }
         }
     }
@@ -90,7 +95,7 @@ class SearchResultsViewController: UIViewController {
     func loadKeywords() {
         tableView.isHidden = false
         collectionView.isHidden = true
-        keywords = searchService.fetchSearchKeywords()
+        keywords = storage.read(for: "SearchKeywords", type: [String].self)
         tableView.reloadData()
     }
     
