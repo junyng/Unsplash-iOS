@@ -130,14 +130,14 @@ class PhotoDetailViewController: UIViewController {
     
     private func loadPhotoInfo() {
         guard let indexPath = collectionView.indexPathsForVisibleItems.first,
-            let photoID = photos?[indexPath.item].id,
+            let id = photos?[indexPath.item].id,
             let title = photos?[indexPath.item].user?.fullName else {
                 return
         }
         
         navigationItem.title = title
         photoInfoButton.loading(true)
-        photoService.fetchPhoto(photoID: photoID) { (result) in
+        photoService.fetchPhoto(id: id) { (result) in
             if case let .success(photo) = result {
                 self.currentIndexPath = indexPath
                 self.delegate?.indexPathUpdated(self.currentIndexPath)
