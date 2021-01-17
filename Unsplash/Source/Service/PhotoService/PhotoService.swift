@@ -9,7 +9,8 @@
 import Foundation
 
 enum Unsplash: ResourceType {
-    case photos
+    case photo(photoID: String)
+    case photos(page: Int?)
     
     var baseURL: URL {
         return URL(fileURLWithPath: "https://api.unsplash.com/")
@@ -17,13 +18,25 @@ enum Unsplash: ResourceType {
     
     var path: String {
         switch self {
+        case .photo(let photoID):
+            return "photos/\(photoID)"
         case .photos:
             return "photos"
         }
     }
     
     var task: HTTPTask {
-        return .requestWithParameters(["client_id":"AOXcpIe46WHyCjLxenpY1bdhuMjfCrKCPT9x2QMzz_Q"])
+        var params: [String: Any] = [:]
+        params["client_id"] = "AOXcpIe46WHyCjLxenpY1bdhuMjfCrKCPT9x2QMzz_Q"
+        switch self {
+        case .photo:
+            return .requestWithParameters(params)
+        case .photos(let page):
+            if let page = page {
+                params["page"] = page
+            }
+            return .requestWithParameters(params)
+        }
     }
 }
 
@@ -34,8 +47,16 @@ struct PhotoService {
         self.networking = networking
     }
     
-    func fetchPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
-        networking.request(resource: .photos, type: [Photo].self) { (result) in
+    func fetchPhoto(photoID: String,
+                    completion: @escaping (Result<Photo, Error>) -> Void) {
+        networking.request(resource: .photo(photoID: photoID), type: Photo.self) { (result) in
+            completion(result)
+        }
+    }
+    
+    func fetchPhotos(page: Int? = nil,
+                     completion: @escaping (Result<[Photo], Error>) -> Void) {
+        networking.request(resource: .photos(page: page), type: [Photo].self) { (result) in
             completion(result)
         }
     }

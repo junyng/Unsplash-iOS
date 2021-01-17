@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="d2z-hl-T81">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gvh-ym-9mt">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -23,6 +23,7 @@
                                 <cells/>
                                 <connections>
                                     <outlet property="dataSource" destination="d2z-hl-T81" id="JEQ-Bc-cvf"/>
+                                    <outlet property="delegate" destination="d2z-hl-T81" id="bgy-Ws-PMn"/>
                                 </connections>
                             </collectionView>
                         </subviews>
@@ -35,13 +36,132 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jBZ-L2-IMs"/>
                     </view>
+                    <navigationItem key="navigationItem" id="5I5-u8-J7q"/>
                     <connections>
                         <outlet property="collectionView" destination="dKK-sX-ZSn" id="Czd-b3-a7r"/>
+                        <segue destination="C4b-k8-zRE" kind="presentation" identifier="PhotoDetailViewController" modalPresentationStyle="fullScreen" id="hda-Jh-OMl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i2U-cb-Hs8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1268.1159420289855" y="-1604.4642857142856"/>
+            <point key="canvasLocation" x="-357.97101449275362" y="-1604.4642857142856"/>
+        </scene>
+        <!--Photo Detail View Controller-->
+        <scene sceneID="Jr1-5c-QBm">
+            <objects>
+                <viewController id="5lL-38-ZOv" customClass="PhotoDetailViewController" customModule="Unsplash" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OD3-eP-8Wy">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gjZ-9Q-RTQ">
+                                <rect key="frame" x="0.0" y="847" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem systemItem="done" id="OLg-Zp-2cf" customClass="PhotoInfoButton" customModule="Unsplash" customModuleProvider="target"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="EtC-Rg-CjT"/>
+                                    <barButtonItem image="suit.heart" catalog="system" id="nw0-Bd-o0L"/>
+                                    <barButtonItem image="plus.circle" catalog="system" id="A9J-32-S25"/>
+                                    <barButtonItem image="arrow.down.circle.fill" catalog="system" id="JJS-Q1-bX7"/>
+                                </items>
+                            </toolbar>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="d3W-J3-M3M">
+                                <rect key="frame" x="0.0" y="88" width="414" height="759"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="MpZ-pG-H1N">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="5lL-38-ZOv" id="79P-z0-bXd"/>
+                                    <outlet property="delegate" destination="5lL-38-ZOv" id="nhd-yb-N76"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="gjZ-9Q-RTQ" firstAttribute="trailing" secondItem="thD-62-zuK" secondAttribute="trailing" id="Pfy-gz-ZsY"/>
+                            <constraint firstItem="gjZ-9Q-RTQ" firstAttribute="top" secondItem="d3W-J3-M3M" secondAttribute="bottom" id="UHR-Cy-ET6"/>
+                            <constraint firstItem="d3W-J3-M3M" firstAttribute="leading" secondItem="thD-62-zuK" secondAttribute="leading" id="VsM-a8-4Hz"/>
+                            <constraint firstItem="gjZ-9Q-RTQ" firstAttribute="leading" secondItem="thD-62-zuK" secondAttribute="leading" id="Y1H-xU-y9z"/>
+                            <constraint firstItem="thD-62-zuK" firstAttribute="trailing" secondItem="d3W-J3-M3M" secondAttribute="trailing" id="dHf-7C-Y0f"/>
+                            <constraint firstItem="d3W-J3-M3M" firstAttribute="top" secondItem="thD-62-zuK" secondAttribute="top" id="ngt-9V-thN"/>
+                            <constraint firstAttribute="bottom" secondItem="gjZ-9Q-RTQ" secondAttribute="bottom" id="p5i-5t-qnZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="thD-62-zuK"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="1Lx-ko-7Oo" appends="YES" id="D7U-NZ-xte"/>
+                        </connections>
+                    </view>
+                    <navigationItem key="navigationItem" id="Bvm-5b-IiX">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="xmark" catalog="system" id="JfU-GH-Q31">
+                            <connections>
+                                <action selector="dismissButtonDidTap:" destination="5lL-38-ZOv" id="HdD-Uj-Ce4"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.arrow.up" catalog="system" id="Wbc-W5-ObY"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="d3W-J3-M3M" id="X4p-aL-3Up"/>
+                        <outlet property="photoInfoButton" destination="OLg-Zp-2cf" id="vRq-h4-TGz"/>
+                        <outlet property="toolbar" destination="gjZ-9Q-RTQ" id="Ahl-dZ-njK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ay1-o3-lZp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="1Lx-ko-7Oo">
+                    <connections>
+                        <action selector="tapGestureRecognized:" destination="5lL-38-ZOv" id="hbT-NF-RhV"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1130" y="-1604"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="6zR-fs-8Gy">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gvh-ym-9mt" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EvE-Qn-otp">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="d2z-hl-T81" kind="relationship" relationship="rootViewController" id="bGc-Me-qGZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B0b-mL-HZf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1068" y="-1604"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="3Ur-K6-Ugd">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="C4b-k8-zRE" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="uTs-KF-juR"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hEw-fo-bC6">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5lL-38-ZOv" kind="relationship" relationship="rootViewController" id="9KS-yx-rwS"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TZZ-bw-Xoo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="403" y="-1604"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="plus.circle" catalog="system" width="128" height="121"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <image name="suit.heart" catalog="system" width="128" height="109"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
+    </resources>
 </document>

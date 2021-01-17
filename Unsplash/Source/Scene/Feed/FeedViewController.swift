@@ -15,6 +15,7 @@ class FeedViewController: UIViewController {
     private let photoService = PhotoService(networking: Networking<Unsplash>())
     private var photos = [Photo]()
     private let imageCache = NSCache<NSString, UIImage>()
+    private var pageNumber: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +30,31 @@ class FeedViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        photoService.fetchPhotos { (result) in
+        loadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let navigationController = segue.destination as? UINavigationController,
+            let photoDetailViewController = navigationController.topViewController as? PhotoDetailViewController,
+            let currentIndexPath = sender as? IndexPath {
+            let photoImages = photos.compactMap { (photo: Photo) -> UIImage? in
+                guard let photoID = photo.id,
+                    let image = imageCache.object(forKey: photoID as NSString) else {
+                    return nil
+                }
+                return image
+            }
+            photoDetailViewController.photoImages = photoImages
+            photoDetailViewController.currentIndexPath = currentIndexPath
+            photoDetailViewController.photos = photos
+            photoDetailViewController.delegate = self
+        }
+    }
+    
+    private func loadData() {
+        photoService.fetchPhotos(page: pageNumber) { (result) in
             if case let .success(photos) = result {
-                self.photos = photos
+                self.photos.append(contentsOf: photos)
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -86,11 +109,33 @@ extension FeedViewController: UICollectionViewDataSource {
     }
 }
 
+extension FeedViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "PhotoDetailViewController", sender: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == photos.count - 10 {
+            pageNumber += 1
+            loadData()
+        }
+    }
+}
+
 extension FeedViewController: FeedLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         guard let imageID = photos[indexPath.row].id,
             let image = imageCache.object(forKey: imageID as NSString) else { return 100 }
         
         return image.size.height * (UIScreen.main.bounds.size.width / image.size.width)
+    }
+}
+
+extension FeedViewController: PhotoDetailViewDelegate {
+    func indexPathUpdated(_ indexPath: IndexPath?) {
+        if let indexPath = indexPath {
+            collectionView.layoutIfNeeded()
+            collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+        }
     }
 }

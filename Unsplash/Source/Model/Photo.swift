@@ -21,6 +21,7 @@ struct Photo: Decodable {
     let width: Int?
     let height: Int?
     let imageURL: ImageURL?
+    var exif: Exif?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -35,6 +36,7 @@ struct Photo: Decodable {
         case width
         case height
         case imageURL = "urls"
+        case exif
     }
 }
 

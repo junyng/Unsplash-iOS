@@ -9,7 +9,7 @@
 import Foundation
 
 enum HTTPTask {
-    case requestWithParameters(_ parameters: [String: String])
+    case requestWithParameters(_ parameters: [String: Any])
 }
 
 protocol ResourceType {
