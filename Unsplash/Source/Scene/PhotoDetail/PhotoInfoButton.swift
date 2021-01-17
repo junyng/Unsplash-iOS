@@ -8,10 +8,12 @@
 
 import UIKit
 
-class PhotoInfoButton: UIBarButtonItem {
+final class PhotoInfoButton: UIBarButtonItem {
+    var buttonDidTap: (() -> ())?
     
-    lazy var button: UIButton = {
+    private lazy var button: UIButton = {
         let button = UIButton(type: .infoLight)
+        customView = button
         return button
     }()
     
@@ -21,6 +23,7 @@ class PhotoInfoButton: UIBarButtonItem {
         activityIndicator.color = .black
         return activityIndicator
     }()
+    
     
     func loading(_ isLoading: Bool) {
         isEnabled = !isLoading
@@ -32,5 +35,13 @@ class PhotoInfoButton: UIBarButtonItem {
             activityIndicator.stopAnimating()
             customView = button
         }
+    }
+    
+    func setupAction(_ event: UIControl.Event) {
+        button.addTarget(self, action: #selector(handle(sender:)), for: event)
+    }
+    
+    @objc private func handle(sender: UIButton) {
+        buttonDidTap?()
     }
 }

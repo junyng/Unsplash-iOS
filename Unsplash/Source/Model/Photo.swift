@@ -22,6 +22,7 @@ struct Photo: Decodable {
     let height: Int?
     let imageURL: ImageURL?
     var exif: Exif?
+    let user: User?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -37,13 +38,6 @@ struct Photo: Decodable {
         case height
         case imageURL = "urls"
         case exif
+        case user
     }
-}
-
-struct ImageURL: Decodable {
-    let full: String?
-    let raw: String?
-    let regular: String?
-    let small: String?
-    let thumb: String?
 }

@@ -10,10 +10,10 @@ import UIKit
 
 enum NetworkingError: Error {
     case noData
-    case decodingFailed
+    case decodeFailed
 }
 
-class Networking<Resource: ResourceType> {
+final class Networking<Resource: ResourceType> {
     
     init() { }
     
@@ -23,24 +23,29 @@ class Networking<Resource: ResourceType> {
                                     completion: @escaping (Result<Model, Error>) -> Void) {
         let urlRequest = URLRequest(resource: resource)
         
-        session.loadData(urlRequest) { (result) in
+        session.loadData(urlRequest) { [weak self] (result) in
             switch result {
             case .success(let response):
                 guard let data = response.data else {
                     return completion(.failure(NetworkingError.noData))
                 }
-                
-                do {
-                    let json = try JSONDecoder().decode(type, from: data)
-                    completion(.success(json))
-                } catch {
-                    completion(.failure(NetworkingError.decodingFailed))
+                self?.decodeJSON(from: data, type: type) { (result) in
+                    completion(result)
                 }
-                
             case .failure(let error):
                 completion(.failure(error))
             }
         }
-        
+    }
+    
+    private func decodeJSON<Model: Decodable>(from data: Data,
+                                              type: Model.Type,
+                                              completion: @escaping (Result<Model, Error>) -> Void) {
+        do {
+            let json = try JSONDecoder().decode(type, from: data)
+            completion(.success(json))
+        } catch {
+            completion(.failure(NetworkingError.decodeFailed))
+        }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  URLExtension.swift
+//  URL+appendingQueryParameters.swift
 //  Unsplash
 //
 //  Created by Cho Junyeong on 2020/10/31.

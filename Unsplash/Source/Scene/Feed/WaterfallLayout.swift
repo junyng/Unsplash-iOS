@@ -1,5 +1,5 @@
 //
-//  FeedLayout.swift
+//  WaterfallLayout.swift
 //  Unsplash
 //
 //  Created by Cho Junyeong on 2020/10/23.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol FeedLayoutDelegate: class {
+protocol WaterfallLayoutDelegate: class {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat
 }
 
-class WaterfallLayout: UICollectionViewLayout {
+final class WaterfallLayout: UICollectionViewLayout {
     
-    weak var delegate: FeedLayoutDelegate?
+    weak var delegate: WaterfallLayoutDelegate?
     
     private let spacingForLine: CGFloat = 1
     private var contentWidth: CGFloat {
