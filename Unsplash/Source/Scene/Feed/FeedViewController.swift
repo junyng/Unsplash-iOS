@@ -138,12 +138,12 @@ extension FeedViewController: UICollectionViewDelegate {
 
 extension FeedViewController: WaterfallLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let screenWidth = UIScreen.main.bounds.size.width
+        let width = collectionView.bounds.width
         guard let photo = photos?[indexPath.item],
-            let width = photo.width,
-            let height = photo.height else { return 180 }
+            let photoWidth = photo.width,
+            let photoHeight = photo.height else { return 180 }
         
-        return CGFloat(height) * screenWidth / CGFloat(width)
+        return CGFloat(photoHeight) * width / CGFloat(photoWidth)
     }
 }
 
